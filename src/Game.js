@@ -2,7 +2,6 @@ import React from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
 
-
 class Game extends React.Component {
 
   pengine;
@@ -11,9 +10,10 @@ class Game extends React.Component {
     super(props);
     this.state = {
       grid: null,
+      rowClues: null,
+      colClues: null,
       waiting: false,
-      mode: '#',
-  
+      mode: '#'
     };
     this.handleClick = this.handleClick.bind(this);
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
@@ -26,10 +26,18 @@ class Game extends React.Component {
     this.pengine.query(queryS, (success, response) => {
       if (success) {
         this.setState({
-          grid: response['Grilla']
+          grid: response['Grilla'],
+          rowClues: response['PistasFilas'],
+          colClues: response['PistasColumns'],
         });
       }
     });
+  }
+  cambioDeEstado(){
+    if(this.state.mode==='#'){
+      this.setState({mode:'x'})         //investigar poque si la x es mayuscula se cambia por una A solo en la grilla
+    }
+    else this.setState( {mode:'#'})
   }
 
   handleClick(i, j) {
@@ -59,39 +67,27 @@ class Game extends React.Component {
     });
   }
 
-  cambioDeEstado(){
-    if(this.state.mode==='#'){
-      this.setState({mode:'x'})         //investigar poque si la x es mayuscula se cambia por una A solo en la grilla
-    }
-    else this.setState( {mode:'#'})
-  }
-  
-
   render() {
     if (this.state.grid === null) {
       return null;
     }
     const statusText = 'Keep playing!';
     return (
-      <div className="game"> 
-      <div>
-       
-          <button type="submit" class="btn btn-primary btn-sm" onClick={this.cambioDeEstado} >
-        
-            {this.state.mode}  
-            
-         </button> 
-          </div>
+      <div className="game">
+        <div>
+       <button type="submit" class="btn btn-primary btn-sm" onClick={this.cambioDeEstado} >
+         {this.state.mode}  
+      </button> 
+       </div>
         <Board
           grid={this.state.grid}
+          rowClues={this.state.rowClues}
+          colClues={this.state.colClues}
           onClick={(i, j) => this.handleClick(i,j)}
         />
         <div className="gameInfo">
           {statusText}
         </div>
-        
-        
-        
       </div>
     );
   }
