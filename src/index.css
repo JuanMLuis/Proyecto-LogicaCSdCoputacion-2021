@@ -64,3 +64,8 @@ body {
 .gameInfo {
   margin-left: 20px;
 }
+
+.box{
+  height: 40px;
+  width: 40px;
+}

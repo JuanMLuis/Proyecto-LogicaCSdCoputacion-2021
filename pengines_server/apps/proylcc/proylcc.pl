@@ -39,3 +39,29 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 	Cell == Contenido 
 		;
 	replace(_Cell, ColN, Contenido, Row, NewRow)).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%find encuentra el elemente en la posicion x y
+%find comienza ubicando una lista en la matriz, R es el elemento en la posicion exacta
+											
+find(0,Yindex, [Xi|_Xs], R):-    			%cascara
+		findsec(0,Yindex, Xi, R).
+
+find(Xindex, Yindex, [_Xi|Xs], R):-
+    	Xindex > 0,
+    	XindexS is Xindex - 1,
+    	find(XindexS, Yindex, Xs, R).
+
+
+%findsec se encarga de buscar en la lista
+	findsec(0, 0, [X|_Xs], X).
+
+findsec(0, Yindex, [_Xi|Xs], R):-		
+    	Yindex > 0,
+    	YindexS is Yindex - 1,
+    	findsec(0, YindexS, Xs, R).

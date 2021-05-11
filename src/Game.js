@@ -47,9 +47,36 @@ class Game extends React.Component {
     }
     // Build Prolog query to make the move, which will look as follows:
     // put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
+    let nuevoElem
+    var posicion
     const squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_"); // Remove quotes for variables.
-    const queryS = 'put(['+this.state.mode+'], [' + i + ',' + j + ']' 
-    + ', [], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+    const queryFind ='find('+ i + ',' + j + ','+squaresS+', R)'
+    
+    this.setState({
+      waiting: true
+    });
+    this.pengine.query(queryFind, (success, response) => {
+      if (success) {
+        posicion= response['R'];
+        posicion=posicion.toString()
+        this.setState({
+          waiting: false
+        });
+      } else {
+        this.setState({
+          waiting: false
+        });
+        
+      }
+     
+      if(posicion === this.state.mode)
+        nuevoElem=' '                   //averiguar como poner el _ sin que aparesca
+        else
+        nuevoElem=this.state.mode
+
+        const queryS = 'put(['+nuevoElem+'], [' + i + ',' + j + '], [], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+    
+    
     this.setState({
       waiting: true
     });
@@ -65,6 +92,14 @@ class Game extends React.Component {
         });
       }
     });
+      
+
+
+
+    });
+    
+    
+    
   }
 
   render() {
@@ -75,7 +110,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div>
-       <button type="submit" class="btn btn-primary btn-sm" onClick={this.cambioDeEstado} >
+       <button type="button" className="box" onClick={this.cambioDeEstado} >
          {this.state.mode}  
       </button> 
        </div>
