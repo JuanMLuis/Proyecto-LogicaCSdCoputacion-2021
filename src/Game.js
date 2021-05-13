@@ -34,10 +34,10 @@ class Game extends React.Component {
     });
   }
   cambioDeEstado(){
-    if(this.state.mode==='#'){
-      this.setState({mode:'x'})         //investigar poque si la x es mayuscula se cambia por una A solo en la grilla
+    if(this.state.mode==='"#"'){
+      this.setState({mode:'"X"'})         //investigar poque si la x es mayuscula se cambia por una A solo en la grilla
     }
-    else this.setState( {mode:'#'})
+    else this.setState( {mode:'"#"'})
   }
 
   handleClick(i, j) {
@@ -51,6 +51,7 @@ class Game extends React.Component {
     var posicion
     const squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_"); // Remove quotes for variables.
     const queryFind ='find('+ i + ',' + j + ','+squaresS+', R)'
+    const aux = this.state.mode.replace(/['"]+/g, '');
     
     this.setState({
       waiting: true
@@ -68,8 +69,8 @@ class Game extends React.Component {
         });
         
       }
-     
-      if(posicion === this.state.mode)
+      console.log(this.state.mode)
+      if(posicion === aux)
         nuevoElem=' '                   //averiguar como poner el _ sin que aparesca
         else
         nuevoElem=this.state.mode
