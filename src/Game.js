@@ -13,7 +13,7 @@ class Game extends React.Component {
       rowClues: null,
       colClues: null,
       waiting: false,
-      mode: '#'
+      mode: '"#"'
     };
     this.handleClick = this.handleClick.bind(this);
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
@@ -112,7 +112,7 @@ class Game extends React.Component {
       <div className="game">
         <div>
        <button type="button" className="box" onClick={this.cambioDeEstado} >
-         {this.state.mode}  
+         {this.state.mode.replace(/['"]+/g, '')}  
       </button> 
        </div>
         <Board

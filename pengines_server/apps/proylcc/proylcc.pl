@@ -65,3 +65,10 @@ findsec(0, Yindex, [_Xi|Xs], R):-
     	Yindex > 0,
     	YindexS is Yindex - 1,
     	findsec(0, YindexS, Xs, R).
+
+
+comprobarPistaFila([],_E).
+
+comprobarPistaFila([P|F]],[X|Xs]):-
+	comprobarAux(P|[X|Xs],ListR),
+		comprobarPistaFila(F,ListR).
