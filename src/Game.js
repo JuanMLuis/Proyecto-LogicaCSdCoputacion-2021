@@ -39,6 +39,8 @@ class Game extends React.Component {
     }
     else this.setState( {mode:'#'})
   }
+  
+  
 
   handleClick(i, j) {
     // No action on click if we are waiting.
@@ -47,11 +49,11 @@ class Game extends React.Component {
     }
     // Build Prolog query to make the move, which will look as follows:
     // put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
-    let nuevoElem
+   
     var posicion
     const squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_"); // Remove quotes for variables.
     const queryFind ='find('+ i + ',' + j + ','+squaresS+', R)'
-    const aux = this.state.mode.replace(/['"]+/g, '');
+    
     
     this.setState({
       waiting: true
@@ -67,10 +69,16 @@ class Game extends React.Component {
           waiting: false
         });
         
-      }
-      console.log(posicion)
-      if(posicion === aux)
-        nuevoElem='_'                   //averiguar como poner el _ sin que aparesca
+      }this.agregarElemento(posicion,i,j,squaresS);
+    }); 
+  }
+
+
+agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que corresponda en la grilla
+    let nuevoElem;
+    console.log(posicion)
+      if(posicion === this.state.mode)
+        nuevoElem='_'                   
         else
         nuevoElem='"'+this.state.mode+'"'
 
@@ -92,15 +100,8 @@ class Game extends React.Component {
         });
       }
     });
-      
-
-
-
-    });
-    
-    
-    
   }
+
 
   render() {
     if (this.state.grid === null) {

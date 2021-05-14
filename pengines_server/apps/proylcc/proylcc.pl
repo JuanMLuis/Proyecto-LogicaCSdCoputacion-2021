@@ -68,40 +68,52 @@ findsec(0, Yindex, [_Xi|Xs], R):-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-comprobacionFilaFinal([]).					%comprueba el final de la lista
+comprobacionFilaFinal([],1).					%comprueba el final de la lista
+comprobacionFilaFinal([],0).					%Este caso es para comprobar no para generar REVISAR
 
-comprobacionFilaFinal([X|Xs]):-
+comprobacionFilaFinal([X|Xs],R):-			%CR revision de que no halla # demas
 	X\="#",
-	comprobacionFilaFinal(Xs).
+	comprobacionFilaFinal(Xs,R).
 
-comporbarFAux(0,LR,LR).
+comprobacionFilaFinal([X|_Xs],0):-			%devuelve 0 si encuantra un # cuando no hay mas pistas
+	X=="#".
 
-comporbarFAux(P,[X|Xs],ListaR):-			%avanzo en la "cadena" pintada descartando de la lista
+comporbarFAux(0,LR,LR,_R).					%CB
+
+comporbarFAux(P,[X|Xs],ListaR,R):-			%avanzo en la "cadena" pintada descartando de la lista
     P>0,
     X=="#",
     Pi is P-1,
-    comporbarFAux(Pi,Xs,ListaR).
-    
+    comporbarFAux(Pi,Xs,ListaR,R).
 
-buscarInicioF(P,[X|Xs],ListR):-				%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
+comporbarFAux(P,[X|_Xs],[],0):-				%devuelve 0,si X es distinto de # y aun queda pista que revisar
+	P>0,	
+    X\="#".
+
+comporbarFAux(P,[],[],0):-						%devuelve 0 si aun queda valor de pista y termine la linea
+		P>0.
+
+buscarInicioF(P,[X|Xs],ListR,R):-				%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
 	X=="#",
-	comporbarFAux(P,[X|Xs],ListR).
+	comporbarFAux(P,[X|Xs],ListR,R).
 
-buscarInicioF(P,[X|Xs],ListaR):-			%busca el inicio de una cadena pintada
+buscarInicioF(P,[X|Xs],ListaR,R):-			%busca el inicio de una cadena pintada
 	(X\="#"),
-	buscarInicioF(P,Xs,ListaR).
+	buscarInicioF(P,Xs,ListaR,R).
 
-comprobarPistaFila([],ListaR):-					%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
-	comprobacionFilaFinal(ListaR).
+buscarInicioF(_P,[],_ListaR,0).				%si no hay lista devolver 0
+
+comprobarLinea([],ListaR,R):-					%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
+	comprobacionFilaFinal(ListaR,R).
     
-comprobarPistaFila([P|SP],[X|Xs]):-			%[P|SP] pista a comprobar, seguida del resto de pistas o vacio
-	buscarInicioF(P,[X|Xs],ListR),
-		comprobarPistaFila(SP,ListR).
+comprobarLinea([P|SP],[X|Xs],R):-			%[P|SP] pista a comprobar, seguida del resto de pistas o vacio
+	buscarInicioF(P,[X|Xs],ListR,R),
+		comprobarLinea(SP,ListR,R).
 
-buscaryComprobarF([X|_Xs],0,PistasFilas):-
-	comprobarPistaFila(PistasFilas,X).
+buscaryComprobarF([X|_Xs],0,PistasFilas,R):-
+	comprobarLinea(PistasFilas,X,R).
 
-buscaryComprobarF([_X|Xs],RowN,PistasFilas):-
+buscaryComprobarF([_X|Xs],RowN,PistasFilas,R):-
 	RowN \= 0,
 	RowNs is RowN-1,
-	buscaryComprobarF(Xs,RowNs,PistasFilas).
+	buscaryComprobarF(Xs,RowNs,PistasFilas,R).
