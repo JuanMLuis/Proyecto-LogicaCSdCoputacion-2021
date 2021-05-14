@@ -24,7 +24,7 @@ replace(X, XIndex, Y, [Xi|Xs], [Xi|XsY]):-
 % put(+Contenido, +Pos, +PistasFilas, +PistasColumnas, +Grilla, -GrillaRes, -FilaSat, -ColSat).
 %
 
-put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0, 0):-
+put(Contenido, [RowN, ColN], PistasFilas, _PistasColumnas, Grilla, NewGrilla, FilaSat, 0):-
 	% NewGrilla es el resultado de reemplazar la fila Row en la posición RowN de Grilla
 	% (RowN-ésima fila de Grilla), por una fila nueva NewRow.
 	
@@ -40,7 +40,7 @@ put(Contenido, [RowN, ColN], _PistasFilas, _PistasColumnas, Grilla, NewGrilla, 0
 		;
 	replace(_Cell, ColN, Contenido, Row, NewRow)).
 
-
+	FilaSat is buscaryComprobarF(NewGrilla,RowN,PistasFilas)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -67,8 +67,41 @@ findsec(0, Yindex, [_Xi|Xs], R):-
     	findsec(0, YindexS, Xs, R).
 
 
-comprobarPistaFila([],_E).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+comprobacionFilaFinal([]).					%comprueba el final de la lista
 
-comprobarPistaFila([P|F]],[X|Xs]):-
-	comprobarAux(P|[X|Xs],ListR),
-		comprobarPistaFila(F,ListR).
+comprobacionFilaFinal([X|Xs]):-
+	X\="#",
+	comprobacionFilaFinal(Xs).
+
+comporbarFAux(0,LR,LR).
+
+comporbarFAux(P,[X|Xs],ListaR):-			%avanzo en la "cadena" pintada descartando de la lista
+    P>0,
+    X=="#",
+    Pi is P-1,
+    comporbarFAux(Pi,Xs,ListaR).
+    
+
+buscarInicioF(P,[X|Xs],ListR):-				%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
+	X=="#",
+	comporbarFAux(P,[X|Xs],ListR).
+
+buscarInicioF(P,[X|Xs],ListaR):-			%busca el inicio de una cadena pintada
+	(X\="#"),
+	buscarInicioF(P,Xs,ListaR).
+
+comprobarPistaFila([],ListaR):-					%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
+	comprobacionFilaFinal(ListaR).
+    
+comprobarPistaFila([P|SP],[X|Xs]):-			%[P|SP] pista a comprobar, seguida del resto de pistas o vacio
+	buscarInicioF(P,[X|Xs],ListR),
+		comprobarPistaFila(SP,ListR).
+
+buscaryComprobarF([X|_Xs],0,PistasFilas):-
+	comprobarPistaFila(PistasFilas,X).
+
+buscaryComprobarF([_X|Xs],RowN,PistasFilas):-
+	RowN \= 0,
+	RowNs is RowN-1,
+	buscaryComprobarF(Xs,RowNs,PistasFilas).
