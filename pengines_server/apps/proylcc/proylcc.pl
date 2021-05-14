@@ -24,7 +24,7 @@ replace(X, XIndex, Y, [Xi|Xs], [Xi|XsY]):-
 % put(+Contenido, +Pos, +PistasFilas, +PistasColumnas, +Grilla, -GrillaRes, -FilaSat, -ColSat).
 %
 
-put(Contenido, [RowN, ColN], PistasFilas, _PistasColumnas, Grilla, NewGrilla, FilaSat, 0):-
+put(Contenido, [RowN, ColN], PistasFilas, _PistasColumnas, Grilla, NewGrilla, Filasat, 0):-
 	% NewGrilla es el resultado de reemplazar la fila Row en la posición RowN de Grilla
 	% (RowN-ésima fila de Grilla), por una fila nueva NewRow.
 	
@@ -40,7 +40,7 @@ put(Contenido, [RowN, ColN], PistasFilas, _PistasColumnas, Grilla, NewGrilla, Fi
 		;
 	replace(_Cell, ColN, Contenido, Row, NewRow)).
 
-	FilaSat = buscaryComprobarF(NewGrilla,RowN,PistasFilas)
+	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

@@ -13,7 +13,7 @@ class Game extends React.Component {
       rowClues: null,
       colClues: null,
       waiting: false,
-      mode: '"#"'
+      mode: '#'
     };
     this.handleClick = this.handleClick.bind(this);
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
@@ -34,10 +34,10 @@ class Game extends React.Component {
     });
   }
   cambioDeEstado(){
-    if(this.state.mode==='"#"'){
-      this.setState({mode:'"X"'})         //investigar poque si la x es mayuscula se cambia por una A solo en la grilla
+    if(this.state.mode==='#'){
+      this.setState({mode:'X'})         //investigar poque si la x es mayuscula se cambia por una A solo en la grilla
     }
-    else this.setState( {mode:'"#"'})
+    else this.setState( {mode:'#'})
   }
 
   handleClick(i, j) {
@@ -59,7 +59,6 @@ class Game extends React.Component {
     this.pengine.query(queryFind, (success, response) => {
       if (success) {
         posicion= response['R'];
-        posicion=posicion.toString()
         this.setState({
           waiting: false
         });
@@ -69,13 +68,13 @@ class Game extends React.Component {
         });
         
       }
-      console.log(this.state.mode)
+      console.log(posicion)
       if(posicion === aux)
-        nuevoElem=' '                   //averiguar como poner el _ sin que aparesca
+        nuevoElem='_'                   //averiguar como poner el _ sin que aparesca
         else
-        nuevoElem=this.state.mode
+        nuevoElem='"'+this.state.mode+'"'
 
-        const queryS = 'put(['+nuevoElem+'], [' + i + ',' + j + '], [], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+        const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], [], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
     
     
     this.setState({
