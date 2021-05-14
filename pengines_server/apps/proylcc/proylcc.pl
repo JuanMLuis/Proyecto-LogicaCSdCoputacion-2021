@@ -40,7 +40,7 @@ put(Contenido, [RowN, ColN], PistasFilas, _PistasColumnas, Grilla, NewGrilla, Fi
 		;
 	replace(_Cell, ColN, Contenido, Row, NewRow)).
 
-	FilaSat is buscaryComprobarF(NewGrilla,RowN,PistasFilas)
+	FilaSat = buscaryComprobarF(NewGrilla,RowN,PistasFilas)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
