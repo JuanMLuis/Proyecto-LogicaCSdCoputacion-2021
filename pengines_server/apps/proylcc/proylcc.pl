@@ -35,14 +35,14 @@ put(Contenido, [RowN, ColN], PistasFilas, _PistasColumnas, Grilla, NewGrilla, Fi
 	% En caso contrario (;)
 	% NewRow es el resultado de reemplazar lo que se que haya (_Cell) en la posición ColN de Row por Conenido.	 
 	
-	buscaryComprobarF(NewGrilla,RowN,PistasFilas,FilaSat),
+	
 
 	(replace(Cell, ColN, _, Row, NewRow),
 	Cell == Contenido 
 		;
-	replace(_Cell, ColN, Contenido, Row, NewRow)).
+	replace(_Cell, ColN, Contenido, Row, NewRow)),
 	
-	
+	buscaryComprobarF(NewGrilla,RowN,PistasFilas,FilaSat).
 
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,13 +99,14 @@ comporbarFAux(P,[X|Xs],ListaR,R):-			%avanzo en la "cadena" pintada descartando 
     Pi is P-1,
      comporbarFAux(Pi,Xs,ListaR,R).
 
+buscarInicioF(P,[X|Xs],ListaR):-							%busca el inicio de una cadena pintada
+	(X\=="#"),
+	buscarInicioF(P,Xs,ListaR).
 
 buscarInicioF(_P,[X|Xs],[X|Xs]):-								%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
 	X=="#".
 
-buscarInicioF(P,[X|Xs],ListaR):-							%busca el inicio de una cadena pintada
-	(X\=="#"),
-	buscarInicioF(P,Xs,ListaR).
+
 
 buscarInicioF(_P,[],[]).										%si llegamos al final de la lista, devuelo una lista vacia
 
