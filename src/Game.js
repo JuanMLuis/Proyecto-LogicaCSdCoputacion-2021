@@ -81,8 +81,9 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
         nuevoElem='_'                   
         else
         nuevoElem='"'+this.state.mode+'"'
+        let PistF = this.state.rowClues[i].toString();
 
-        const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], [], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+        const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], ['+PistF+'], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
     
     
     this.setState({
@@ -103,6 +104,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
         });
       }
       console.log(filaPista);
+      console.log(this.state.rowClues[i]);
     });
   }
 

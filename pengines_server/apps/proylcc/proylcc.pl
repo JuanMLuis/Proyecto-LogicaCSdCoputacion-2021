@@ -80,16 +80,12 @@ comprobacionFilaFinal([X|Xs],R):-				%revisamos que el resto de espacios de la l
 comprobacionFilaFinal([X|_Xs],0):-				%si encontramos algo pintado, despues de comprobar las pistas entonces 0
 	X=="#".
 
-
-
-					
-
 comporbarFAux(P,[],[],0):-				%si llegamos al final de la fila, y aun no terminamos de comprobar P, entonces el resultado es 0
     P>0.
 
 comporbarFAux(P,[X|_Xs],[],0):-				%si aun no terminamos de comprobar P, y nos encontramos algo no pintado entonces 0
     P>0,
-    X\="#".
+    X\=="#".
 
 comporbarFAux(0,LR,LR,_R).					%caso base, aun no podemos asegurar el valor de R
 
@@ -111,7 +107,6 @@ buscarInicioF(_P,[X|Xs],[X|Xs]):-								%Si enontre una "cadena" pintada, compr
 buscarInicioF(_P,[],[]).										%si llegamos al final de la lista, devuelo una lista vacia
 
 comprobarPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
-	ListaR\==[],
     comprobacionFilaFinal(ListaR,R).
 
 comprobarPista(_P,[],0).								%si ya tenemos el resultado, cortamos	
