@@ -13,12 +13,16 @@ class Game extends React.Component {
       rowClues: null,
       colClues: null,
       waiting: false,
-      mode: '#'
+      mode: '#',
+      PistasFilasSatisfechas: null,
+      PistasColumnasSatisfechas: null
     };
     this.handleClick = this.handleClick.bind(this);
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
     this.pengine = new PengineClient(this.handlePengineCreate);
     this.cambioDeEstado = this.cambioDeEstado.bind(this);
+
+    //this.setState({PistasFilasSatisfechas: new Array[this.state.rowClues.lenght].replaceAll(0)})
   }
 
   handlePengineCreate() {
@@ -28,6 +32,7 @@ class Game extends React.Component {
         this.setState({
           grid: response['Grilla'],
           rowClues: response['PistasFilas'],
+          PistasFilasSatisfechas: this.state.rowClues.replaceAll("["+Number+"]","[0]"),
           colClues: response['PistasColumns'],
         });
       }
@@ -103,8 +108,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           waiting: false
         });
       }
-      console.log(filaPista);
-      console.log(this.state.rowClues[i]);
+      console.log(this.state.PistasFilasSatisfechas);
     });
   }
 
@@ -118,7 +122,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
       <div className="game">
         <div>
        <button type="button" className="box" onClick={this.cambioDeEstado} >
-         {this.state.mode.replace(/['"]+/g, '')}  
+         {this.state.mode}  
       </button> 
        </div>
         <Board

@@ -48,6 +48,15 @@ body {
   margin: 5px;
 }
 
+.clue1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #84c78d;
+  border-radius: 8px;
+  margin: 5px;
+}
+
 .clue div {
   margin: 2px
 }
