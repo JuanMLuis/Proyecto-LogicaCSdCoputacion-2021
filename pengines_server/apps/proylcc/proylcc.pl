@@ -53,7 +53,7 @@ put(Contenido, [RowN, ColN], PistasFilas, _PistasColumnas, Grilla, NewGrilla, Fi
 %find comienza ubicando una lista en la matriz, R es el elemento en la posicion exacta
 											
 find(0,Yindex, [Xi|_Xs], R):-    			%cascara
-		findsec(0,Yindex, Xi, R).
+		findEnColumna(0,Yindex, Xi, R).
 
 find(Xindex, Yindex, [_Xi|Xs], R):-
     	Xindex > 0,
@@ -61,10 +61,11 @@ find(Xindex, Yindex, [_Xi|Xs], R):-
     	find(XindexS, Yindex, Xs, R).
 
 
-%findsec se encarga de buscar en la lista
+%findEnColumna se encarga de buscar en la lista en el indice de columna Yindex.
+
 	findsec(0, 0, [X|_Xs], X).
 
-findsec(0, Yindex, [_Xi|Xs], R):-		
+findEnColumna(0, Yindex, [_Xi|Xs], R):-		
     	Yindex > 0,
     	YindexS is Yindex - 1,
     	findsec(0, YindexS, Xs, R).
