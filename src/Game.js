@@ -81,13 +81,15 @@ class Game extends React.Component {
 agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que corresponda en la grilla
     let nuevoElem;
     let filaPista;
+    let columnaPista;
       if(posicion === this.state.mode)
         nuevoElem='_'                   
         else
         nuevoElem='"'+this.state.mode+'"'
         let PistF = this.state.rowClues[i].toString();
+        let PistC = this.state.colClues[i].toString();
 
-        const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], ['+PistF+'], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+        const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], ['+PistF+'], ['+PistC+'],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
     
     
     this.setState({
@@ -96,10 +98,10 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
     this.pengine.query(queryS, (success, response) => {
       if (success) {
         
-        filaPista = response['FilaSat']
+        filaPista = response['FilaSat'];
+        columnaPista= response['ColSat']
         this.setState({
           grid: response['GrillaRes'],
-          
           waiting: false
         });
       } else {
@@ -107,7 +109,8 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           waiting: false
         });
       }
-      console.log(this.state.PistasFilasSatisfechas);
+      console.log(filaPista);
+      console.log(columnaPista)
     });
   }
 

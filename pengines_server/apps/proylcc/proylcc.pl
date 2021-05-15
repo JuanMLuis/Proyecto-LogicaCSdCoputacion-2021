@@ -24,7 +24,7 @@ replace(X, XIndex, Y, [Xi|Xs], [Xi|XsY]):-
 % put(+Contenido, +Pos, +PistasFilas, +PistasColumnas, +Grilla, -GrillaRes, -FilaSat, -ColSat).
 %
 
-put(Contenido, [RowN, ColN], PistasFilas, _PistasColumnas, Grilla, NewGrilla, FilaSat, 0):-
+put(Contenido, [RowN, ColN], PistasFilas, PistasColumnas, Grilla, NewGrilla, FilaSat, ColSat):-
 	% NewGrilla es el resultado de reemplazar la fila Row en la posición RowN de Grilla
 	% (RowN-ésima fila de Grilla), por una fila nueva NewRow.
 	
@@ -42,7 +42,10 @@ put(Contenido, [RowN, ColN], PistasFilas, _PistasColumnas, Grilla, NewGrilla, Fi
 		;
 	replace(_Cell, ColN, Contenido, Row, NewRow)),
 	
-	buscaryComprobarF(NewGrilla,RowN,PistasFilas,FilaSat).
+	buscaryComprobarF(NewGrilla,RowN,PistasFilas,FilaSat),
+
+	columnaComoLista(NewGrilla,ColN,ListaNueva),
+	comprobarPista(PistasColumnas,ListaNueva,ColSat).
 
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -143,7 +146,7 @@ buscaryComprobarF([_X|Xs],RowN,PistasFilas,R):-				%RowN es la fila que vamos a 
 
 % Caso base. Llegué al final de la matriz y me encuentro con la lista vacía.
 
-columnaComoLista([],Yindex,[]).
+columnaComoLista([],_Yindex,[]).
 
 % Caso recursivo
 
