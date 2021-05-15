@@ -74,7 +74,7 @@ findsec(0, Yindex, [_Xi|Xs], R):-
 comprobacionFilaFinal([],1).					%comprueba el final de la lista
 
 comprobacionFilaFinal([X|Xs],R):-				%revisamos que el resto de espacios de la lista, este 
-	X\="#",
+	X\=="#",
 	comprobacionFilaFinal(Xs,R).
 
 comprobacionFilaFinal([X|_Xs],0):-				%si encontramos algo pintado, despues de comprobar las pistas entonces 0
@@ -104,13 +104,13 @@ buscarInicioF(_P,[X|Xs],[X|Xs]):-								%Si enontre una "cadena" pintada, compr
 	X=="#".
 
 buscarInicioF(P,[X|Xs],ListaR):-							%busca el inicio de una cadena pintada
-	(X\="#"),
+	(X\=="#"),
 	buscarInicioF(P,Xs,ListaR).
 
 buscarInicioF(_P,[],[]).										%si llegamos al final de la lista, devuelo una lista vacia
 
 comprobarPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
-	ListaR\=[],
+	ListaR\==[],
     comprobacionFilaFinal(ListaR,R).
 
 comprobarPista(_P,[],0).								%si ya tenemos el resultado, cortamos	

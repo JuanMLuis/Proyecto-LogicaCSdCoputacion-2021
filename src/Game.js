@@ -82,7 +82,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
         else
         nuevoElem='"'+this.state.mode+'"'
 
-        const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], [5], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+        const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], [1], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
     
     
     this.setState({
