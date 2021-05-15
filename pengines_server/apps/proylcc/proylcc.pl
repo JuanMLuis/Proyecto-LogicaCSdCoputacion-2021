@@ -125,3 +125,59 @@ buscaryComprobarF([_X|Xs],RowN,PistasFilas,R):-				%RowN es la fila que vamos a 
 	RowN \= 0,												%Pistas Filas es la lista de pistas correspondiente
 	RowNs is RowN-1,										%R 1 si cuple 0 si no cumple
 	buscaryComprobarF(Xs,RowNs,PistasFilas,R).
+
+
+
+
+
+
+
+
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% columnaComoLista(+Grilla,+Yindex,,-ListaNueva)
+%
+
+% Caso base. Llegué al final de la matriz y me encuentro con la lista vacía.
+
+columnaComoLista([],Yindex,[]).
+
+% Caso recursivo
+
+columnaComoLista([G|Gs],Yindex,[Elem | Ls]):-
+
+	% Yindex es el indice de la columna donde se encuentra el elemento
+	% [G|Gs] es la grilla que hay que recorrer. Es decir, recorrer todas sus listas (hasta que Gs sea la
+	% lista vacía)
+	% [Elem | Ls] es la lista resultante de agregar el elemento Elem a la lista Ls.
+	% Esta ultima lista Ls, es el resultado de la recursion del predicado.
+
+	findEnColumna(0,Yindex,G,Elem),	% Recupero el elemento Elem busando en la lista G.
+
+	columnaComoLista(Gs,Yindex,Ls).	
+										% Ls es el resultado de ingresar el elemento con indice de columna
+										% Yindex buscado en la lista Gs (fila que le sigue a la fila G.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% agregarAlFinal(+Elem, +Lista, -NewLista)
+%
+	% Caso base
+	agregarAlFinal(Elem, [], [Elem]).
+	
+	% Caso recursivo
+
+	agregregarAlFinal(Elem, [L | Ls], [L | NewLs]) :- agregarAlFinal(Elem, Ls, NewLs).
+
+
+
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
