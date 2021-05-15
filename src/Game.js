@@ -32,7 +32,6 @@ class Game extends React.Component {
         this.setState({
           grid: response['Grilla'],
           rowClues: response['PistasFilas'],
-          PistasFilasSatisfechas: this.state.rowClues.replaceAll("["+Number+"]","[0]"),
           colClues: response['PistasColumns'],
         });
       }
