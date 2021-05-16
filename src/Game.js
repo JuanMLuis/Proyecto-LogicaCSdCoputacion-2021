@@ -87,7 +87,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
         else
         nuevoElem='"'+this.state.mode+'"'
         let PistF = this.state.rowClues[i].toString();
-        let PistC = this.state.colClues[i].toString();
+        let PistC = this.state.colClues[j].toString();
 
         const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], ['+PistF+'], ['+PistC+'],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
     
@@ -109,8 +109,9 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           waiting: false
         });
       }
-      console.log(filaPista);
-      console.log(columnaPista)
+      console.log(this.state.colClues[j].toString())
+      console.log('F'+filaPista);
+      console.log('C'+columnaPista)
     });
   }
 
