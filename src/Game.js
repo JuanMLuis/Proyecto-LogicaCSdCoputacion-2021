@@ -21,6 +21,7 @@ class Game extends React.Component {
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
     this.pengine = new PengineClient(this.handlePengineCreate);
     this.cambioDeEstado = this.cambioDeEstado.bind(this);
+    
 
     //this.setState({PistasFilasSatisfechas: new Array[this.state.rowClues.lenght].replaceAll(0)})
   }
@@ -29,11 +30,17 @@ class Game extends React.Component {
     const queryS = 'init(PistasFilas, PistasColumns, Grilla)';
     this.pengine.query(queryS, (success, response) => {
       if (success) {
+        let CantFilas=Object.keys(response['PistasFilas']).length;
+        let CantColumnas=Object.keys(response['PistasColumns']).length;
+        
         this.setState({
           grid: response['Grilla'],
           rowClues: response['PistasFilas'],
           colClues: response['PistasColumns'],
+          PistasFilasSatisfechas:new Array(CantFilas).fill(0),
+          PistasColumnasSatisfechas: new Array(CantColumnas).fill(0)
         });
+       
       }
     });
   }
@@ -109,9 +116,14 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           waiting: false
         });
       }
-      console.log(this.state.colClues[j].toString())
-      console.log('F'+filaPista);
-      console.log('C'+columnaPista)
+      let ArrayAuxFil = this.state.PistasColumnasSatisfechas.slice();
+      ArrayAuxFil[i]=filaPista
+      this.setState({PistasFilasSatisfechas:ArrayAuxFil});
+
+      let ArrayAuxCol = this.state.PistasColumnasSatisfechas.slice();
+      ArrayAuxCol[j]=columnaPista
+      this.setState({PistasColumnasSatisfechas:ArrayAuxCol});
+      
     });
   }
 
@@ -132,6 +144,8 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           grid={this.state.grid}
           rowClues={this.state.rowClues}
           colClues={this.state.colClues}
+          PistasFSatisfechas={this.state.PistasFilasSatisfechas}
+          PistasCSatisfechas={this.state.PistasColumnasSatisfechas}
           onClick={(i, j) => this.handleClick(i,j)}
         />
         <div className="gameInfo">

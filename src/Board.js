@@ -10,6 +10,9 @@ class Board extends React.Component {
         const rowClues = this.props.rowClues;
         const colClues = this.props.colClues;
 
+        const PistasFSatisfechas= this.props.PistasFSatisfechas;
+        const PistasCSatisfechas= this.props.PistasCSatisfechas;
+
         return (
             <div className="vertical">
                 <div

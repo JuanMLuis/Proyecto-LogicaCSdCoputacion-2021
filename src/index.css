@@ -39,22 +39,30 @@ body {
   display: grid;
 }
 
-.clue {
+.clue0 {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #b9d6e0;
   border-radius: 8px;
   margin: 5px;
+  background: #b9d6e0;
 }
 
 .clue1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #84c78d;
   border-radius: 8px;
   margin: 5px;
+  background: #11b81f;
+}
+
+.c0{
+  background: #33c40e;
+}
+
+.c1{
+  background: #11b81f;
 }
 
 .clue div {
