@@ -92,7 +92,13 @@ comporbarAux(P,[X|_Xs],[],0):-				%si aun no terminamos de comprobar P, y nos en
     P>0,
     X\=="#".
 
-comporbarAux(0,LR,LR,_R).					%caso base, aun no podemos asegurar el valor de R
+comporbarAux(0,[X|Xs],Xs,_R):-					%caso base, aun no podemos asegurar el valor de R y revise el elemento siguiente
+	X\=="#".
+
+comporbarAux(0,[],[],_R).
+
+comporbarAux(0,[X|_Xs],[],0):-
+	X=="#".
 
 comporbarAux(P,[X|Xs],ListaR,R):-			%avanzo en la "cadena" pintada descartando de la lista
     P>0,

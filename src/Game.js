@@ -104,7 +104,6 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
     });
     this.pengine.query(queryS, (success, response) => {
       if (success) {
-        
         filaPista = response['FilaSat'];
         columnaPista= response['ColSat']
         this.setState({
@@ -116,13 +115,14 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           waiting: false
         });
       }
-      let ArrayAuxFil = this.state.PistasColumnasSatisfechas.slice();
+      let ArrayAuxFil = this.state.PistasFilasSatisfechas.slice();
       ArrayAuxFil[i]=filaPista
       this.setState({PistasFilasSatisfechas:ArrayAuxFil});
 
       let ArrayAuxCol = this.state.PistasColumnasSatisfechas.slice();
       ArrayAuxCol[j]=columnaPista
       this.setState({PistasColumnasSatisfechas:ArrayAuxCol});
+
       
     });
   }
