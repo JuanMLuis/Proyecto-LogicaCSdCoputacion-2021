@@ -16,7 +16,7 @@ class Board extends React.Component {
         return (
             <div className="vertical">
                 <div
-                    className="colClues"
+                    className="colClues"            //
                     style={{
                         gridTemplateRows: '60px',
                         gridTemplateColumns: '60px repeat(' + numOfCols + ', 40px)'
@@ -31,7 +31,7 @@ class Board extends React.Component {
                 >
                     <div>{/* top-left corner square */}</div>
                     {colClues.map((clue, i) =>
-                        <Clue clue={clue} key={i}/>
+                        <Clue clue={clue} key={i} Pintar={PistasCSatisfechas[i]} />
                     )}
                 </div>
                 <div className="horizontal">
@@ -44,7 +44,7 @@ class Board extends React.Component {
                         }}
                     >
                         {rowClues.map((clue, i) =>
-                            <Clue clue={clue} key={i}/>
+                            <Clue clue={clue} key={i} Pintar={PistasFSatisfechas[i]}/>
                         )}
                     </div>
                     <div className="board"

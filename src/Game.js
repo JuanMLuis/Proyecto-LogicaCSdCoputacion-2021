@@ -123,6 +123,9 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
       let ArrayAuxCol = this.state.PistasColumnasSatisfechas.slice();
       ArrayAuxCol[j]=columnaPista
       this.setState({PistasColumnasSatisfechas:ArrayAuxCol});
+
+      console.log(this.state.PistasFilasSatisfechas)
+      console.log(this.state.PistasColumnasSatisfechas)
       
     });
   }
