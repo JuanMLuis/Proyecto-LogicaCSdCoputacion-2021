@@ -171,24 +171,3 @@ columnaComoLista([G|Gs],Yindex,[Elem | Ls]):-
 										% Ls es el resultado de ingresar el elemento con indice de columna
 										% Yindex buscado en la lista Gs (fila que le sigue a la fila G.)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% agregarAlFinal(+Elem, +Lista, -NewLista)
-%
-	% Caso base
-	agregarAlFinal(Elem, [], [Elem]).
-	
-	% Caso recursivo
-
-	agregregarAlFinal(Elem, [L | Ls], [L | NewLs]) :- agregarAlFinal(Elem, Ls, NewLs).
-
-
-
-	
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
