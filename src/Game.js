@@ -15,7 +15,8 @@ class Game extends React.Component {
       waiting: false,
       mode: '#',
       PistasFilasSatisfechas: null,
-      PistasColumnasSatisfechas: null
+      PistasColumnasSatisfechas: null,
+      victoria : false
     };
     this.handleClick = this.handleClick.bind(this);
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
@@ -46,7 +47,7 @@ class Game extends React.Component {
   }
   cambioDeEstado(){
     if(this.state.mode==='#'){
-      this.setState({mode:'X'})         //investigar poque si la x es mayuscula se cambia por una A solo en la grilla
+      this.setState({mode:'X'})
     }
     else this.setState( {mode:'#'})
   }
@@ -123,16 +124,57 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
       ArrayAuxCol[j]=columnaPista
       this.setState({PistasColumnasSatisfechas:ArrayAuxCol});
 
+      this.victoria();
       
     });
   }
 
 
+  victoria(){
+    let seguirRecorriendo = true;
+    let arregloPistasFilasSat = this.state.PistasFilasSatisfechas;
+    let arregloPistasColumnasSat = this.state.PistasColumnasSatisfechas;
+    let i = 0;
+    let r = 0;
+
+    while( seguirRecorriendo){
+
+      for( i; i < arregloPistasFilasSat.length; i++)
+          if (arregloPistasFilasSat[i] === 0)
+          seguirRecorriendo = false;
+      
+
+      if (seguirRecorriendo){
+
+        for(r; r < arregloPistasColumnasSat.length; r++)
+          if (arregloPistasFilasSat[r] === 0)
+          seguirRecorriendo = false;
+      }
+
+      if(seguirRecorriendo){
+        this.setState({victoria : true});
+        seguirRecorriendo = false;
+      }
+        
+  }
+
+  console.log(this.state.victoria);
+
+}
+
   render() {
     if (this.state.grid === null) {
       return null;
     }
-    const statusText = 'Keep playing!';
+
+    
+
+    let statusText = 'Keep playing!';
+
+    if (this.state.victoria === true)
+      statusText = 'Victoria!';
+  
+    
     return (
       <div className="game">
         <div>
