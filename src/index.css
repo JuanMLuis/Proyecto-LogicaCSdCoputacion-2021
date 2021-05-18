@@ -65,11 +65,19 @@ body {
   background: #11b81f;
 }
 
-.clue div {
+.clue0 div {
   margin: 2px
 }
 
-.colClues .clue {
+.clue1 div {
+  margin: 2px
+}
+
+.colClues .clue1 {
+  flex-direction: column;
+}
+
+.colClues .clue0 {
   flex-direction: column;
 }
 
