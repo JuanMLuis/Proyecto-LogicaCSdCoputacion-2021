@@ -2,6 +2,7 @@ import React from 'react';
 import Square from './Square';
 import Clue from './Clue';
 
+
 class Board extends React.Component {
     
     
@@ -24,11 +25,14 @@ class Board extends React.Component {
         const PistasFSatisfechas= this.props.PistasFSatisfechas;
         const PistasCSatisfechas= this.props.PistasCSatisfechas;
 
+        const Victoria=this.props.Victoria;
        
         let maxCantCol=this.BuscarMaximoArray(colClues);
         let maxCantRow=this.BuscarMaximoArray(rowClues);
 
+        const Boton=this.props.Boton;
 
+        
         return (
             <div className="vertical">
                 <div
@@ -45,7 +49,7 @@ class Board extends React.Component {
                          */
                     }}
                 >
-                    <div>{/* top-left corner square */}</div>
+                    <div>{Boton}</div>
                     {colClues.map((clue, i) =>
                         <Clue clue={clue} key={i} Pintar={PistasCSatisfechas[i]} />
                     )}
@@ -78,7 +82,12 @@ class Board extends React.Component {
                             )
                         )}
                     </div>
+                    
                 </div>
+                <div className="Victoria">
+                    {Victoria}
+            </div>
+                
             </div>
         );
     }

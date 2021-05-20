@@ -80,6 +80,7 @@ class Game extends React.Component {
   
 
   handleClick(i, j) {
+    if(!this.state.victoria){
     // No action on click if we are waiting.
     if (this.state.waiting) {
       return;
@@ -108,6 +109,7 @@ class Game extends React.Component {
         
       }this.agregarElemento(posicion,i,j,squaresS);
     }); 
+  }
   }
 
 
@@ -190,20 +192,19 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
       return null;
     }
 
+    let TextoVictoria
+      if (this.state.victoria === true)
+        TextoVictoria = 'Victoria!';
+      else TextoVictoria="";
+
     
 
-    let statusText = 'Keep playing!';
-
-    if (this.state.victoria === true)
-      statusText = 'Victoria!';
+    
   
     
     return (
       <div className="game">
-        <div>
-       <button type="button" className="box" onClick={this.cambioDeEstado} >
-         {this.state.mode}  
-      </button> 
+        <div> 
        </div>
         <Board
           grid={this.state.grid}
@@ -211,11 +212,11 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           colClues={this.state.colClues}
           PistasFSatisfechas={this.state.PistasFilasSatisfechas}
           PistasCSatisfechas={this.state.PistasColumnasSatisfechas}
+          Boton={ <button type="button" className="box" onClick={this.cambioDeEstado} >{this.state.mode} </button> } //boton de cambio de estado
+          Victoria={TextoVictoria}
           onClick={(i, j) => this.handleClick(i,j)}
         />
-        <div className="gameInfo">
-          {statusText}
-        </div>
+        
       </div>
     );
   }
