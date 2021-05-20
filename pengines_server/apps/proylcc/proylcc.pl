@@ -154,7 +154,7 @@ buscarFila([_X|Xs],RowN,FilaRes):-				%RowN es la fila que vamos a comprobar
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% columnaComoLista(+Grilla,+Yindex,,-ListaNueva)
+% columnaComoLista(+Grilla,+Yindex,-ListaNueva)
 %
 
 % Caso base. Llegué al final de la matriz y me encuentro con la lista vacía.
@@ -177,3 +177,35 @@ columnaComoLista([G|Gs],Yindex,[Elem | Ls]):-
 										% Ls es el resultado de ingresar el elemento con indice de columna
 										% Yindex buscado en la lista Gs (fila que le sigue a la fila G.)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+%EstadoDePistasGeneral(+Grilla,+PistasF,+PistasC,-ListaComplidaF,-ListaCumplidaC)
+%
+
+estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
+	%Grilla es el estado actual de la grilla del nonograma
+	%PistasF pistas que se deben cumplir en las FilaSa
+	%PistasC pistas que se deben cumplir en las columnaComoLista
+	%ListaCumplidaF lista resulstante de que pistas se cumplieron y cuales no
+	%ListaCumplidaC lista resulstante de que pistas se cumplieron y cuales no
+
+	crearCumplidaF(Grilla,PistasF,ListaCumplidaF),
+	crearCumplidaC(Grilla,PistasC,ListaCumplidaC).
+
+	crearCumplidaF([],[],[]).
+
+	crearCumplidaF([X|Xs],[Y|Ys],[FilaSat|Cont]):-	%[X|Xs] Grlla,[Y|Ys] pistas
+		comprobarPista(Y,X,FilaSat),
+		crearCumplidaF(Xs,Ys,Cont).
+
+
+	crearCumplidaCAux(_Grilla,[],_Yindex,[]).
+
+	crearCumplidaCAux(Grilla,[Y|Ys],Yindex,[ColSat|Cont]):-
+		columnaComoLista(Grilla,Yindex,Columna),
+		comprobarPista(Y,Columna,ColSat),
+		YindexS is Yindex + 1,
+		crearCumplidaCAux(Grilla,Ys,YindexS,Cont).
+
+	crearCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
+		crearCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
