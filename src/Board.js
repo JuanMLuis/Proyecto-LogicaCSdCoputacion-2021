@@ -3,6 +3,17 @@ import Square from './Square';
 import Clue from './Clue';
 
 class Board extends React.Component {
+    
+    
+    BuscarMaximoArray(array) {
+            let toReturn=0;
+            array.forEach(element => {
+                if(toReturn<element.length)
+                    toReturn=element.length;
+            });
+            return toReturn;
+        }
+
     render() {
         const numOfRows = this.props.grid.length;
         const numOfCols = this.props.grid[0].length;
@@ -13,12 +24,17 @@ class Board extends React.Component {
         const PistasFSatisfechas= this.props.PistasFSatisfechas;
         const PistasCSatisfechas= this.props.PistasCSatisfechas;
 
+       
+        let maxCantCol=this.BuscarMaximoArray(colClues);
+        let maxCantRow=this.BuscarMaximoArray(rowClues);
+
+
         return (
             <div className="vertical">
                 <div
                     className="colClues"            //
                     style={{
-                        gridTemplateRows: '60px',
+                        gridTemplateRows: maxCantCol*25+'px',
                         gridTemplateColumns: '60px repeat(' + numOfCols + ', 40px)'
                         /*
                            60px  40px 40px 40px 40px 40px 40px 40px   (gridTemplateColumns)
@@ -39,7 +55,7 @@ class Board extends React.Component {
                         className="rowClues"
                         style={{
                             gridTemplateRows: 'repeat(' + numOfRows + ', 40px)',
-                            gridTemplateColumns: '60px'
+                            gridTemplateColumns: maxCantRow*35+'px'
                             /* IDEM column clues above */
                         }}
                     >

@@ -37,22 +37,23 @@ class Game extends React.Component {
         this.setState({
           grid: response['Grilla'],
           rowClues: response['PistasFilas'],
+     
           colClues: response['PistasColumns'],
           PistasFilasSatisfechas:new Array(CantFilas).fill(0),          //preguntar, inicializamos en 0, si no se inicializa aca, explota
           PistasColumnasSatisfechas: new Array(CantColumnas).fill(0)
 
           
         });
-       
       }this.inicializarPistasSat();
     });
   }
 
   inicializarPistasSat(){   //inicializa los estados de las pistas por si alguna comienza en 1
    const squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_");
-   let PistasF= this.ArraytoString(this.state.rowClues.slice());      //utilizo metodo aux para crear el el string de las pistas
-   let PistasC= this.ArraytoString(this.state.colClues.slice());      //ya que sino, una lista [1,2,[1,3]] se convierte en [1,2,1,3]
-    const querySat='estadoDePistasGeneral('+squaresS+',['+PistasF+'],['+PistasC+'],ListaCumplidaF,ListaCumplidaC)'
+   let PistasF= JSON.stringify(this.state.rowClues.slice());     
+   let PistasC= JSON.stringify(this.state.colClues.slice());    
+    
+    const querySat='estadoDePistasGeneral('+squaresS+','+PistasF+','+PistasC+',ListaCumplidaF,ListaCumplidaC)'
     this.pengine.query(querySat, (success, response) => {
       if (success) {
         this.setState({
@@ -61,20 +62,11 @@ class Game extends React.Component {
 
           
         });
-       console.log(response['ListaCumplidaF'])
+       
       }
     });
   }
 
-  ArraytoString(array){
-    let string = "";
-    let i=0;
-    for(i; i < array.length-1; i++)
-          string=string+'['+array[i]+'],'
-
-    string=string+'['+string[i+1]+']'         //el ultimo elemento no tiene ","" al final
-    return string;
-  }
   
   
 
