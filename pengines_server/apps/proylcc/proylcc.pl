@@ -113,11 +113,11 @@ buscarInicio(P,[X|Xs],ListaR):-							%busca el inicio de una cadena pintada
 buscarInicio(_P,[X|Xs],[X|Xs]):-								%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
 	X=="#".
 
-
-
 buscarInicio(_P,[],[]).										%si llegamos al final de la lista, devuelo una lista vacia
 
-comprobarPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
+
+
+comprobarPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no haya nada extra pintado
     comprobacionFinal(ListaR,R).
 
 comprobarPista([],[],0).								
@@ -133,7 +133,7 @@ comprobarPista([P|SP],[X|Xs],R):-						%[P|SP] pista a comprobar, seguida del re
 				%CB
 	
 %
-% buscarFila(+Grilla,+RowN,-FilaRes)
+% buscarFila(+Grilla,+RowN,-FilaRes) 			Busca y devuelve la fila que se encuentra en el indice RowN.
 %
 
 buscarFila([X|_Xs],0,X).	
@@ -142,10 +142,6 @@ buscarFila([_X|Xs],RowN,FilaRes):-				%RowN es la fila que vamos a comprobar
 	RowN \= 0,												
 	RowNs is RowN-1,										
 	buscarFila(Xs,RowNs,FilaRes).
-
-
-
-
 
 
 
@@ -186,12 +182,14 @@ estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 	%Grilla es el estado actual de la grilla del nonograma
 	%PistasF pistas que se deben cumplir en las FilaSa
 	%PistasC pistas que se deben cumplir en las columnaComoLista
-	%ListaCumplidaF lista resulstante de que pistas se cumplieron y cuales no
-	%ListaCumplidaC lista resulstante de que pistas se cumplieron y cuales no
+	%ListaCumplidaF lista resultante de que pistas se cumplieron y cuales no
+	%ListaCumplidaC lista resultante de que pistas se cumplieron y cuales no
 
 	crearCumplidaF(Grilla,PistasF,ListaCumplidaF),
 	crearCumplidaC(Grilla,PistasC,ListaCumplidaC).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+	
 	crearCumplidaF([],[],[]).
 
 	crearCumplidaF([X|Xs],[Y|Ys],[FilaSat|Cont]):-	%[X|Xs] Grlla,[Y|Ys] pistas
