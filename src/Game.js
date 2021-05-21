@@ -71,10 +71,12 @@ class Game extends React.Component {
   
 
   cambioDeEstado(){
+    if(!this.state.victoria){       //si la partida no termino, permito el cambio de modo
     if(this.state.mode==='#'){
       this.setState({mode:'X'})
     }
     else this.setState( {mode:'#'})
+  }
   }
   
   
