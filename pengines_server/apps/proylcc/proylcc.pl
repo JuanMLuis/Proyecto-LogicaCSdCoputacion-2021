@@ -188,13 +188,19 @@ estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 	crearCumplidaF(Grilla,PistasF,ListaCumplidaF),
 	crearCumplidaC(Grilla,PistasC,ListaCumplidaC).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% Este predicado recorre la grilla, generando una lista cuyo contenido es 1 o 0. En la posicion i de la lista,
+	% se encontrara un 1 si la fila i cumple con las pistas o un 0 si no lo hace.
 	
 	crearCumplidaF([],[],[]).
 
 	crearCumplidaF([X|Xs],[Y|Ys],[FilaSat|Cont]):-	%[X|Xs] Grlla,[Y|Ys] pistas
 		comprobarPista(Y,X,FilaSat),
 		crearCumplidaF(Xs,Ys,Cont).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	% Parecido al predicado anterior, este hace lo propio pero con las columnas de la grilla.
 
 
 	crearCumplidaCAux(_Grilla,[],_Yindex,[]).
@@ -207,3 +213,5 @@ estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 
 	crearCumplidaC(Grilla,[Y|Ys],ListaColSatisfechas):-			%cascara
 		crearCumplidaCAux(Grilla,[Y|Ys],0,ListaColSatisfechas).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
