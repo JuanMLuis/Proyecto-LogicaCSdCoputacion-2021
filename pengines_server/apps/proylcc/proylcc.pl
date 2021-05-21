@@ -205,5 +205,5 @@ estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 		YindexS is Yindex + 1,
 		crearCumplidaCAux(Grilla,Ys,YindexS,Cont).
 
-	crearCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
-		crearCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
+	crearCumplidaC(Grilla,[Y|Ys],ListaPistasColSatisfechas):-			%cascara
+		crearCumplidaCAux(Grilla,[Y|Ys],0,ListaPistasColSatisfechas).
