@@ -175,7 +175,7 @@ columnaComoLista([G|Gs],Yindex,[Elem | Ls]):-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
-%EstadoDePistasGeneral(+Grilla,+PistasF,+PistasC,-ListaComplidaF,-ListaCumplidaC)
+%EstadoDePistasGeneral(+Grilla,+PistasF,+PistasC,-ListaCumplidaF,-ListaCumplidaC)
 %
 
 estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
