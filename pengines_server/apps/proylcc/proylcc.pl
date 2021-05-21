@@ -85,37 +85,42 @@ comprobacionFinal([X|Xs],R):-				%revisamos que el resto de espacios de la lista
 comprobacionFinal([X|_Xs],0):-				%si encontramos algo pintado, despues de comprobar las pistas entonces 0
 	X=="#".
 
-comporbarAux(P,[],[],0):-				%si llegamos al final de la lista, y aun no terminamos de comprobar P, entonces el resultado es 0
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+comprobarAux(P,[],[],0):-					%si llegamos al final de la lista, y aun no terminamos de comprobar P, entonces el resultado es 0
     P>0.
 
-comporbarAux(P,[X|_Xs],[],0):-				%si aun no terminamos de comprobar P, y nos encontramos algo no pintado entonces 0
+comprobarAux(P,[X|_Xs],[],0):-				%si aun no terminamos de comprobar P, y nos encontramos algo no pintado entonces 0
     P>0,
     X\=="#".
 
-comporbarAux(0,[X|Xs],Xs,_R):-					%caso base, aun no podemos asegurar el valor de R y revise el elemento siguiente
+comprobarAux(0,[X|Xs],Xs,_R):-				%caso base, aun no podemos asegurar el valor de R y revise el elemento siguiente
 	X\=="#".
 
-comporbarAux(0,[],[],_R).
+comprobarAux(0,[],[],_R).
 
-comporbarAux(0,[X|_Xs],[],0):-
+comprobarAux(0,[X|_Xs],[],0):-
 	X=="#".
 
-comporbarAux(P,[X|Xs],ListaR,R):-			%avanzo en la "cadena" pintada descartando de la lista
+comprobarAux(P,[X|Xs],ListaR,R):-			%avanzo en la "cadena" pintada descartando de la lista
     P>0,
     X=="#",
     Pi is P-1,
      comporbarAux(Pi,Xs,ListaR,R).
 
-buscarInicio(P,[X|Xs],ListaR):-							%busca el inicio de una cadena pintada
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+buscarInicio(P,[X|Xs],ListaR):-				%busca el inicio de una cadena pintada
 	(X\=="#"),
 	buscarInicio(P,Xs,ListaR).
 
-buscarInicio(_P,[X|Xs],[X|Xs]):-								%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
+buscarInicio(_P,[X|Xs],[X|Xs]):-			%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
 	X=="#".
 
-buscarInicio(_P,[],[]).										%si llegamos al final de la lista, devuelo una lista vacia
+buscarInicio(_P,[],[]).						%si llegamos al final de la lista, devuelo una lista vacia
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 comprobarPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no haya nada extra pintado
     comprobacionFinal(ListaR,R).
@@ -127,7 +132,7 @@ comprobarPista(P,[],0):-								%si ya tenemos el resultado, cortamos
     
 comprobarPista([P|SP],[X|Xs],R):-						%[P|SP] pista a comprobar, seguida del resto de pistas o vacio
 	buscarInicio(P,[X|Xs],ListAcomp),
-    comporbarAux(P,ListAcomp,ListR,R),
+    comprobarAux(P,ListAcomp,ListR,R),
 		comprobarPista(SP,ListR,R).
 
 				%CB
