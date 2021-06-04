@@ -176,7 +176,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
       if (seguirRecorriendo){
 
         for(r; r < arregloPistasColumnasSat.length; r++)
-          if (arregloPistasFilasSat[r] === 0)
+          if (arregloPistasColumnasSat[r] === 0)
           seguirRecorriendo = false;
       }
 
