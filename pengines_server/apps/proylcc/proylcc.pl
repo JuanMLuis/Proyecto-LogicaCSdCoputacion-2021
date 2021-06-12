@@ -292,10 +292,37 @@ listaDeUnos(Int,[1|Res]):-
     listaDeUnos(IntS,Res).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-completarNonograma(Grilla,PC,PF,Grilla):-
-	length(PF,TamF),
-	length(PC,TamC),
-	listaDeUnos(TamF,TamanoColumna),				% no se permiten ñ
-	listaDeUnos(TamC,TamanoFila),
-	generacionDeNonoGramaPorPistas(Grilla,PC,PF,TamanoFila,TamanoColumna).
+completarNonograma(PC,PF,GrillaR):-
+    length(PF,TamF),
+    length(PC,TamC),
+    listaDeUnos(TamF,TamanoColumna),
+    listaDeUnos(TamC,TamanoFila),
+    crearMatrizVacia(TamC,TamF,Grilla),
+    generacionDeNonoGramaPorPistas(Grilla,PC,PF,TamanoFila,TamanoColumna),
+	llenarMatriz(Grilla,GrillaR).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+llenarMatriz([],[]).
+llenarMatriz([X|Xs],[R|Rx]):-
+    llenarLineaX(X,R),
+    llenarMatriz(Xs,Rx).
+
+llenarLineaX([],[]).
+llenarLineaX(["X"|Xs],["X"|R]):-llenarLineaX(Xs,R).
+llenarLineaX([X|Xs],[X|R]):- X=="#", llenarLineaX(Xs,R).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+crearMatrizVacia(0,_Fil,[]).
+crearMatrizVacia(Col,Fil,[X|Xs]):-
+    Col>0,
+    crearListaV(Fil,X),
+    ColAux is Col-1,
+    crearMatrizVacia(ColAux,Fil,Xs).
+
+crearListaV(0,[]).
+crearListaV(Fil,[_|Xs]):-
+	Fil>0,
+    FilAux is Fil-1,
+    crearListaV(FilAux,Xs).
 
