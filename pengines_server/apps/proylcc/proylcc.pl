@@ -216,7 +216,129 @@ estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 		YindexS is Yindex + 1,
 		crearCumplidaCAux(Grilla,Ys,YindexS,Cont).
 
+<<<<<<< HEAD
 	crearCumplidaC(Grilla,[Y|Ys],ListaColSatisfechas):-			%cascara
 		crearCumplidaCAux(Grilla,[Y|Ys],0,ListaColSatisfechas).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+=======
+	crearCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
+		crearCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
+
+
+generarAux(0,[X|Xs],Xs,_R):-					%caso base, aun no podemos asegurar el valor de R y revise el elemento siguiente
+	X\=="#".
+
+generarAux(0,[],[],_R).
+
+
+generarAux(P,["#"|Xs],ListaR,R):-			%avanzo en la "cadena" pintada descartando de la lista
+    P>0,
+    Pi is P-1,
+     generarAux(Pi,Xs,ListaR,R).
+
+
+
+buscarInicioG(_P,["#"|Xs],["#"|Xs]).								%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
+
+buscarInicioG(P,[X|Xs],ListaR):-							%busca el inicio de una cadena pintada
+	(X\=="#"),
+	buscarInicioG(P,Xs,ListaR).	
+
+
+buscarInicioG(_P,[],[]).										%si llegamos al final de la lista, devuelo una lista vacia
+
+generarPorPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
+    comprobacionFinal(ListaR,R).
+							
+    
+generarPorPista([P|SP],[X|Xs],R):-						%[P|SP] pista a comprobar, seguida del resto de pistas o vacio
+	buscarInicioG(P,[X|Xs],ListAcomp),
+    generarAux(P,ListAcomp,ListR,R),
+		generarPorPista(SP,ListR,R).
+
+
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% columnaComoLista(+Grilla,+Yindex,-ListaNueva)
+%
+
+% Caso base. Llegué al final de la matriz y me encuentro con la lista vacía.
+
+generacionDeNonoGramaPorPistas(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
+	%Grilla es el estado actual de la grilla del nonograma
+	%PistasF pistas que se deben cumplir en las FilaSa
+	%PistasC pistas que se deben cumplir en las columnaComoLista
+	%ListaCumplidaF lista resulstante de que pistas se cumplieron y cuales no
+	%ListaCumplidaC lista resulstante de que pistas se cumplieron y cuales no
+
+	generarCumplidaF(Grilla,PistasF,ListaCumplidaF),
+	generarCumplidaC(Grilla,PistasC,ListaCumplidaC).
+
+	generarCumplidaF([],[],[]).
+
+	generarCumplidaF([X|Xs],[Y|Ys],[FilaSat|Cont]):-	%[X|Xs] Grlla,[Y|Ys] pistas
+		generarPorPista(Y,X,FilaSat),
+		generarCumplidaF(Xs,Ys,Cont).
+
+
+	generarCumplidaCAux(_Grilla,[],_Yindex,[]).
+
+	generarCumplidaCAux(Grilla,[Y|Ys],Yindex,[ColSat|Cont]):-
+		columnaComoLista(Grilla,Yindex,Columna),
+		generarPorPista(Y,Columna,ColSat),
+		YindexS is Yindex + 1,
+		generarCumplidaCAux(Grilla,Ys,YindexS,Cont).
+
+	generarCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
+		generarCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+listaDeUnos(0,[]).
+
+listaDeUnos(Int,[1|Res]):-
+    Int>0,
+    IntS is Int-1,
+    listaDeUnos(IntS,Res).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+completarNonograma(PC,PF,GrillaR):-
+    length(PF,TamF),
+    length(PC,TamC),
+    listaDeUnos(TamF,TamanoColumna),
+    listaDeUnos(TamC,TamanoFila),
+    crearMatrizVacia(TamC,TamF,Grilla),
+    generacionDeNonoGramaPorPistas(Grilla,PC,PF,TamanoFila,TamanoColumna),
+	llenarMatriz(Grilla,GrillaR).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+llenarMatriz([],[]).
+llenarMatriz([X|Xs],[R|Rx]):-
+    llenarLineaX(X,R),
+    llenarMatriz(Xs,Rx).
+
+llenarLineaX([],[]).
+llenarLineaX(["X"|Xs],["X"|R]):-llenarLineaX(Xs,R).
+llenarLineaX([X|Xs],[X|R]):- X=="#", llenarLineaX(Xs,R).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+crearMatrizVacia(0,_Fil,[]).
+crearMatrizVacia(Col,Fil,[X|Xs]):-
+    Col>0,
+    crearListaV(Fil,X),
+    ColAux is Col-1,
+    crearMatrizVacia(ColAux,Fil,Xs).
+
+crearListaV(0,[]).
+crearListaV(Fil,[_|Xs]):-
+	Fil>0,
+    FilAux is Fil-1,
+    crearListaV(FilAux,Xs).
+
+>>>>>>> 6259a57166c977da8b35e413a9380f4aff5524a1
