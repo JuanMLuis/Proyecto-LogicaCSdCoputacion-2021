@@ -16,6 +16,7 @@ class Game extends React.Component {
       mode: '#',
       PistasFilasSatisfechas: null,
       PistasColumnasSatisfechas: null,
+      matrizSolucionada:null,
       victoria : false
     };
     this.handleClick = this.handleClick.bind(this);
@@ -40,12 +41,36 @@ class Game extends React.Component {
      
           colClues: response['PistasColumns'],
           PistasFilasSatisfechas:new Array(CantFilas).fill(0),          //preguntar, inicializamos en 0, si no se inicializa aca, explota
-          PistasColumnasSatisfechas: new Array(CantColumnas).fill(0)
+          PistasColumnasSatisfechas: new Array(CantColumnas).fill(0),
+          
 
           
         });
-      }this.inicializarPistasSat();
+
+      }
+      this.inicializarPistasSat();
+      this.inicializarMatrizSoluciones();
     });
+  }
+
+  inicializarMatrizSoluciones(){
+    
+    let PistasF= JSON.stringify(this.state.rowClues.slice());     
+    let PistasC= JSON.stringify(this.state.colClues.slice()); 
+    const queryMat='completarNonograma('+PistasC+','+PistasF+',GrillaR)'
+
+    this.pengine.query(querySat, (success, response) => {
+      if (success) {
+        this.setState({
+          matrizSolucionada :response['GrillaR'],
+
+        });
+       
+      }
+    });
+
+
+    
   }
 
   inicializarPistasSat(){   //inicializa los estados de las pistas por si alguna comienza en 1
@@ -66,6 +91,8 @@ class Game extends React.Component {
       }
     });
   }
+
+
 
   
   

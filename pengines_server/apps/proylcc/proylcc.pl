@@ -216,12 +216,6 @@ estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 		YindexS is Yindex + 1,
 		crearCumplidaCAux(Grilla,Ys,YindexS,Cont).
 
-<<<<<<< HEAD
-	crearCumplidaC(Grilla,[Y|Ys],ListaColSatisfechas):-			%cascara
-		crearCumplidaCAux(Grilla,[Y|Ys],0,ListaColSatisfechas).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-=======
 	crearCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
 		crearCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
 
@@ -341,4 +335,3 @@ crearListaV(Fil,[_|Xs]):-
     FilAux is Fil-1,
     crearListaV(FilAux,Xs).
 
->>>>>>> 6259a57166c977da8b35e413a9380f4aff5524a1
