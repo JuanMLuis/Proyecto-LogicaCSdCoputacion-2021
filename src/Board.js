@@ -86,8 +86,8 @@ class Board extends React.Component {
                 </div>
                 <div className="Victoria">
                     {Victoria}
+           
             </div>
-                
             </div>
         );
     }
