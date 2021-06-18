@@ -85,16 +85,14 @@ comprobacionFinal([X|Xs],R):-				%revisamos que el resto de espacios de la lista
 comprobacionFinal([X|_Xs],0):-				%si encontramos algo pintado, despues de comprobar las pistas entonces 0
 	X=="#".
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-comprobarAux(P,[],[],0):-					%si llegamos al final de la lista, y aun no terminamos de comprobar P, entonces el resultado es 0
+comprobarAux(P,[],[],0):-				%si llegamos al final de la lista, y aun no terminamos de comprobar P, entonces el resultado es 0
     P>0.
 
 comprobarAux(P,[X|_Xs],[],0):-				%si aun no terminamos de comprobar P, y nos encontramos algo no pintado entonces 0
     P>0,
     X\=="#".
 
-comprobarAux(0,[X|Xs],Xs,_R):-				%caso base, aun no podemos asegurar el valor de R y revise el elemento siguiente
+comprobarAux(0,[X|Xs],Xs,_R):-					%caso base, aun no podemos asegurar el valor de R y revise el elemento siguiente
 	X\=="#".
 
 comprobarAux(0,[],[],_R).
@@ -106,23 +104,20 @@ comprobarAux(P,[X|Xs],ListaR,R):-			%avanzo en la "cadena" pintada descartando d
     P>0,
     X=="#",
     Pi is P-1,
-     comporbarAux(Pi,Xs,ListaR,R).
+     comprobarAux(Pi,Xs,ListaR,R).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-buscarInicio(P,[X|Xs],ListaR):-				%busca el inicio de una cadena pintada
+buscarInicio(P,[X|Xs],ListaR):-							%busca el inicio de una cadena pintada
 	(X\=="#"),
 	buscarInicio(P,Xs,ListaR).
 
-buscarInicio(_P,[X|Xs],[X|Xs]):-			%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
+buscarInicio(_P,[X|Xs],[X|Xs]):-								%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
 	X=="#".
 
-buscarInicio(_P,[],[]).						%si llegamos al final de la lista, devuelo una lista vacia
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+buscarInicio(_P,[],[]).										%si llegamos al final de la lista, devuelo una lista vacia
 
-comprobarPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no haya nada extra pintado
+comprobarPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
     comprobacionFinal(ListaR,R).
 
 comprobarPista([],[],0).								
@@ -138,7 +133,7 @@ comprobarPista([P|SP],[X|Xs],R):-						%[P|SP] pista a comprobar, seguida del re
 				%CB
 	
 %
-% buscarFila(+Grilla,+RowN,-FilaRes) 			Busca y devuelve la fila que se encuentra en el indice RowN.
+% buscarFila(+Grilla,+RowN,-FilaRes)
 %
 
 buscarFila([X|_Xs],0,X).	
@@ -150,7 +145,14 @@ buscarFila([_X|Xs],RowN,FilaRes):-				%RowN es la fila que vamos a comprobar
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % columnaComoLista(+Grilla,+Yindex,-ListaNueva)
 %
@@ -174,36 +176,27 @@ columnaComoLista([G|Gs],Yindex,[Elem | Ls]):-
 	columnaComoLista(Gs,Yindex,Ls).	
 										% Ls es el resultado de ingresar el elemento con indice de columna
 										% Yindex buscado en la lista Gs (fila que le sigue a la fila G.)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
-%EstadoDePistasGeneral(+Grilla,+PistasF,+PistasC,-ListaCumplidaF,-ListaCumplidaC)
+%EstadoDePistasGeneral(+Grilla,+PistasF,+PistasC,-ListaComplidaF,-ListaCumplidaC)
 %
 
 estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 	%Grilla es el estado actual de la grilla del nonograma
 	%PistasF pistas que se deben cumplir en las FilaSa
 	%PistasC pistas que se deben cumplir en las columnaComoLista
-	%ListaCumplidaF lista resultante de que pistas se cumplieron y cuales no
-	%ListaCumplidaC lista resultante de que pistas se cumplieron y cuales no
+	%ListaCumplidaF lista resulstante de que pistas se cumplieron y cuales no
+	%ListaCumplidaC lista resulstante de que pistas se cumplieron y cuales no
 
 	crearCumplidaF(Grilla,PistasF,ListaCumplidaF),
 	crearCumplidaC(Grilla,PistasC,ListaCumplidaC).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	% Este predicado recorre la grilla, generando una lista cuyo contenido es 1 o 0. En la posicion i de la lista,
-	% se encontrara un 1 si la fila i cumple con las pistas o un 0 si no lo hace.
-	
 	crearCumplidaF([],[],[]).
 
-	crearCumplidaF([X|Xs],[Y|Ys],[FilaSat|Cont]):-	%[X|Xs] Grilla,[Y|Ys] pistas
+	crearCumplidaF([X|Xs],[Y|Ys],[FilaSat|Cont]):-	%[X|Xs] Grlla,[Y|Ys] pistas
 		comprobarPista(Y,X,FilaSat),
 		crearCumplidaF(Xs,Ys,Cont).
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	% Parecido al predicado anterior, este hace lo propio pero con las columnas de la grilla.
 
 
 	crearCumplidaCAux(_Grilla,[],_Yindex,[]).
@@ -213,8 +206,6 @@ estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 		comprobarPista(Y,Columna,ColSat),
 		YindexS is Yindex + 1,
 		crearCumplidaCAux(Grilla,Ys,YindexS,Cont).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	crearCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
 		crearCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
@@ -242,25 +233,24 @@ buscarInicioG(P,[X|Xs],ListaR):-							%busca el inicio de una cadena pintada
 
 buscarInicioG(_P,[],[]).										%si llegamos al final de la lista, devuelo una lista vacia
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-generarPorPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no haya nada extra pintado
+generarPorPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
     comprobacionFinal(ListaR,R).
 							
     
 generarPorPista([P|SP],[X|Xs],R):-						%[P|SP] pista a comprobar, seguida del resto de pistas o vacio
 	buscarInicioG(P,[X|Xs],ListAcomp),
     generarAux(P,ListAcomp,ListR,R),
-	generarPorPista(SP,ListR,R).
+		generarPorPista(SP,ListR,R).
 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% columnaComoLista(+Grilla,+Yindex,-ListaNueva)
+%
 
-
-
+% Caso base. Llegué al final de la matriz y me encuentro con la lista vacía.
 
 generacionDeNonoGramaPorPistas(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 	%Grilla es el estado actual de la grilla del nonograma
@@ -272,15 +262,12 @@ generacionDeNonoGramaPorPistas(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumpli
 	generarCumplidaF(Grilla,PistasF,ListaCumplidaF),
 	generarCumplidaC(Grilla,PistasC,ListaCumplidaC).
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	generarCumplidaF([],[],[]).
 
-	generarCumplidaF([X|Xs],[Y|Ys],[FilaSat|Cont]):-	%[X|Xs] es la Grilla, [Y|Ys] son las pistas.
+	generarCumplidaF([X|Xs],[Y|Ys],[FilaSat|Cont]):-	%[X|Xs] Grlla,[Y|Ys] pistas
 		generarPorPista(Y,X,FilaSat),
 		generarCumplidaF(Xs,Ys,Cont).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 	generarCumplidaCAux(_Grilla,[],_Yindex,[]).
 
@@ -290,23 +277,19 @@ generacionDeNonoGramaPorPistas(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumpli
 		YindexS is Yindex + 1,
 		generarCumplidaCAux(Grilla,Ys,YindexS,Cont).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 	generarCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
 		generarCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 listaDeUnos(0,[]).
 
 listaDeUnos(Int,[1|Res]):-
     Int>0,
     IntS is Int-1,
     listaDeUnos(IntS,Res).
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 completarNonograma(PC,PF,GrillaR):-
@@ -320,35 +303,24 @@ completarNonograma(PC,PF,GrillaR):-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 llenarMatriz([],[]).
-
-
 llenarMatriz([X|Xs],[R|Rx]):-
     llenarLineaX(X,R),
     llenarMatriz(Xs,Rx).
 
 llenarLineaX([],[]).
-
 llenarLineaX(["X"|Xs],["X"|R]):-llenarLineaX(Xs,R).
-
 llenarLineaX([X|Xs],[X|R]):- X=="#", llenarLineaX(Xs,R).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 crearMatrizVacia(0,_Fil,[]).
-
-
-
 crearMatrizVacia(Col,Fil,[X|Xs]):-
     Col>0,
     crearListaV(Fil,X),
     ColAux is Col-1,
     crearMatrizVacia(ColAux,Fil,Xs).
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 crearListaV(0,[]).
-
 crearListaV(Fil,[_|Xs]):-
 	Fil>0,
     FilAux is Fil-1,
