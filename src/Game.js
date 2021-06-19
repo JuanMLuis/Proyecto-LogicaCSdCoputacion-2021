@@ -10,12 +10,14 @@ class Game extends React.Component {
     super(props);
     this.state = {
       grid: null,
+      gridAux : null,
       rowClues: null,
       colClues: null,
       waiting: false,
       mode: '#',
       PistasFilasSatisfechas: null,
       PistasColumnasSatisfechas: null,
+      matrizSolucionada : null,
       victoria : false
     };
     this.handleClick = this.handleClick.bind(this);
@@ -44,7 +46,9 @@ class Game extends React.Component {
 
           
         });
-      }this.inicializarPistasSat();
+      }
+      this.inicializarPistasSat();
+      this.inicializarMatrizSoluciones();
     });
   }
 
@@ -67,18 +71,48 @@ class Game extends React.Component {
     });
   }
 
+
+  inicializarMatrizSoluciones(){
+
+    let PistasF= JSON.stringify(this.state.rowClues.slice());
+    let PistasC= JSON.stringify(this.state.colClues.slice()); 
+    const queryMat='completarNonograma('+PistasF+','+PistasC+',GrillaR)'
+
+    this.pengine.query(queryMat, (success, response) => {
+      if (success) {
+        this.setState({
+          matrizSolucionada : response['GrillaR'],
+        });
+
+      }
+    });
+
+  }
+
+
   
   
 
   cambioDeEstado(){
     if(!this.state.victoria){       //si la partida no termino, permito el cambio de modo
-    if(this.state.mode==='#'){
-      this.setState({mode:'X'})
-    }
+    
+        if(this.state.mode==='#'){
+        
+            this.setState({mode:'X'})
+        }
     else this.setState( {mode:'#'})
+    }
   }
-  }
-  
+
+  CambioDeGrilla(){
+
+       this.setState({
+        gridAux : state.matrizSolucionada,
+        grid : state.matrizSolucionada,
+        matrizSolucionada : gridAux,
+       })
+   
+     }
   
 
   handleClick(i, j) {
