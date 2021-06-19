@@ -303,7 +303,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           onClick={(i, j) => this.handleClick(i,j)}
         />
         <button type="button" className={"switch"+this.state.modoPista} onClick={this.modoPista} >{"Revelar Celda"} </button>
-        <button type="button" className={"switch"+this.state.modoMostrarCompleta} onClick={this.modoMostrarCompleta} >{"Solucion"} </button>
+        <button type="button" className={"switchG"+this.state.modoMostrarCompleta} onClick={this.modoMostrarCompleta} >{"Solucion"} </button>
     </div>
     );
   }
