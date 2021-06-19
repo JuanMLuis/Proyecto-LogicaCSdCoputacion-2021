@@ -111,7 +111,7 @@ class Game extends React.Component {
   
 
   handleClick(i, j) {
-    if(!this.state.victoria){
+    if(!this.state.victoria && !this.state.modoMostrarCompleta){
     // No action on click if we are waiting.
     if (this.state.waiting) {
       return;
