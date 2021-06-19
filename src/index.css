@@ -107,10 +107,10 @@ body {
 .switchfalse{
   text-decoration: none;
   height: 40px;
-  width: 85px;
-  font-family: helvetica;
+  width: 150px;
+  font-family: arial;
   font-weight: 300;
-  font-size: 25px;
+  font-size: 15px;
   font-style: italic;
   color: #000000;
   background-color: #616962;
@@ -121,10 +121,10 @@ body {
 .switchtrue{
   text-decoration: none;
   height: 40px;
-  width: 85px;
-  font-family: helvetica;
+  width: 150px;
+  font-family: arial;
   font-weight: 300;
-  font-size: 25px;
+  font-size: 15px;
   font-style: italic;
   color: #000000;
   background-color: #208b2e;
@@ -136,10 +136,10 @@ body {
 .switchGfalse{
   text-decoration: none;
   height: 40px;
-  width: 115px;
-  font-family: helvetica;
+  width: 150px;
+  font-family: arial;
   font-weight: 300;
-  font-size: 25px;
+  font-size: 15px;
   font-style: italic;
   color: #000000;
   background-color: #616962;
@@ -152,10 +152,10 @@ body {
 .switchGtrue{
   text-decoration: none;
   height: 40px;
-  width: 115px;
-  font-family: helvetica;
+  width: 150px;
+  font-family: arial;
   font-weight: 300;
-  font-size: 25px;
+  font-size: 15px;
   font-style: italic;
   color: #000000;
   background-color: #208b2e;

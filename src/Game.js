@@ -136,9 +136,21 @@ class Game extends React.Component {
     // put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
    
     var posicion
-    const squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_"); // Remove quotes for variables.
-    const queryFind ='find('+ i + ',' + j + ','+squaresS+', R)'
-    
+    var squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_");
+    var squaresSAux;
+
+    if(this.state.modoPista === true){
+
+      squaresSAux = JSON.stringify(this.state.matrizSolucionada).replaceAll('"_"', "_");
+    }
+    else{
+
+      squaresSAux = JSON.stringify(this.state.grid).replaceAll('"_"', "_");
+
+    }
+
+
+    const queryFind ='find('+ i + ',' + j + ','+squaresSAux+', R)'
     
     this.setState({
       waiting: true
@@ -154,7 +166,11 @@ class Game extends React.Component {
           waiting: false
         });
         
-      }this.agregarElemento(posicion,i,j,squaresS);
+      }
+
+
+
+      this.agregarElemento(posicion,i,j,squaresS);
     }); 
   }
   }
@@ -164,32 +180,50 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
     let nuevoElem;
     let filaPista;
     let columnaPista;
+
+    if (this.state.modoPista === false){
+
       if(posicion === this.state.mode)
         nuevoElem='_'                   
         else
         nuevoElem='"'+this.state.mode+'"'
-        let PistF = this.state.rowClues[i].toString();
-        let PistC = this.state.colClues[j].toString();
+        
 
-        const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], ['+PistF+'], ['+PistC+'],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+    }
+    else{
+        nuevoElem = '"'+posicion+'"';
+    }    
+      
+    let PistF = this.state.rowClues[i].toString();
+    let PistC = this.state.colClues[j].toString();
+    const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], ['+PistF+'], ['+PistC+'],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
     
     
     this.setState({
       waiting: true
     });
+
     this.pengine.query(queryS, (success, response) => {
+      
       if (success) {
+       
         filaPista = response['FilaSat'];
         columnaPista= response['ColSat']
+        
         this.setState({
           grid: response['GrillaRes'],
           waiting: false
         });
-      } else {
+      
+      } 
+      else {
+        
         this.setState({
           waiting: false
         });
+      
       }
+
       let ArrayAuxFil = this.state.PistasFilasSatisfechas.slice();
       ArrayAuxFil[i]=filaPista
       this.setState({PistasFilasSatisfechas:ArrayAuxFil});
@@ -201,7 +235,12 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
       this.victoria();
       
     });
+  
   }
+
+
+
+
   modoMostrarCompleta(){
     let aux = this.state.modoMostrarCompleta;
     this.setState({
@@ -215,7 +254,6 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
     this.setState({
       modoPista: !aux
     })
-    this.CambioDeGrilla();
   }
 
   victoria(){
@@ -277,8 +315,8 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           Victoria={TextoVictoria}
           onClick={(i, j) => this.handleClick(i,j)}
         />
-        <button type="button" className={"switch"+this.state.modoPista} onClick={this.modoPista} >{"Pistas"} </button>
-        <button type="button" className={"switchG"+this.state.modoMostrarCompleta} onClick={this.modoMostrarCompleta} >{"Solucion"} </button>
+        <button type="button" className={"switch"+this.state.modoPista} onClick={this.modoPista} >{"Revelar Celda"} </button>
+        <button type="button" className={"switch"+this.state.modoMostrarCompleta} onClick={this.modoMostrarCompleta} >{"Solucion"} </button>
     </div>
     );
   }
