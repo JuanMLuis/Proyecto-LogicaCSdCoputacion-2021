@@ -209,7 +209,8 @@ estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 
 	crearCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
 		crearCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%los siguientes predicados son variaciones de los predicados de comprobacion de pistas, que les permite modificar las listas ingresadas
 
 generarAux(0,[X|Xs],Xs,_R):-					%caso base, aun no podemos asegurar el valor de R y revise el elemento siguiente
 	X\=="#".
@@ -246,11 +247,6 @@ generarPorPista([P|SP],[X|Xs],R):-						%[P|SP] pista a comprobar, seguida del r
 
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% columnaComoLista(+Grilla,+Yindex,-ListaNueva)
-%
-
-% Caso base. Llegué al final de la matriz y me encuentro con la lista vacía.
 
 generacionDeNonoGramaPorPistas(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 	%Grilla es el estado actual de la grilla del nonograma
@@ -258,6 +254,8 @@ generacionDeNonoGramaPorPistas(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumpli
 	%PistasC pistas que se deben cumplir en las columnaComoLista
 	%ListaCumplidaF lista resulstante de que pistas se cumplieron y cuales no
 	%ListaCumplidaC lista resulstante de que pistas se cumplieron y cuales no
+	%buscar una solucion al nonograma, buscando las distintas posibilidades de las filas y columnas, aprovechando como funciona prolog
+	
 
 	generarCumplidaF(Grilla,PistasF,ListaCumplidaF),
 	generarCumplidaC(Grilla,PistasC,ListaCumplidaC).
@@ -279,20 +277,21 @@ generacionDeNonoGramaPorPistas(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumpli
 
 	generarCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
 		generarCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%listaDeUnos(+int,-lista)
+%crea una lsita de unos de tamaño igual a INT, realizado, sirve para generar el nonograma completo
 listaDeUnos(0,[]).
 
-listaDeUnos(Int,[1|Res]):-
+listaDeUnos(Int,[1|Res]):-			
     Int>0,
     IntS is Int-1,
     listaDeUnos(IntS,Res).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-completarNonograma(PC,PF,GrillaR):-
+%completarNonograma(+PC,+PF,-GrillaR)
+%completa el nonograma, cumpliendo con las pistas (PC,PF), tambien crea la grilla, para facilitar el uso de este metodo
+%
+completarNonograma(PC,PF,GrillaR):-	
     length(PF,TamF),
     length(PC,TamC),
     listaDeUnos(TamF,TamanoColumna),
@@ -302,23 +301,37 @@ completarNonograma(PC,PF,GrillaR):-
 	llenarMatriz(Grilla,GrillaR).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%llenarMatriz(+Grilla,-GrillaRes)
+%llena los espacios vacios de la grilla con X
+
 llenarMatriz([],[]).
 llenarMatriz([X|Xs],[R|Rx]):-
     llenarLineaX(X,R),
     llenarMatriz(Xs,Rx).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%lleanrLineaX(+Lista,-ListaRes)
+%Llean los espacios "_" de la lista con X, es un porceso auxiliar de llenarmatriz
 
 llenarLineaX([],[]).
 llenarLineaX(["X"|Xs],["X"|R]):-llenarLineaX(Xs,R).
 llenarLineaX([X|Xs],[X|R]):- X=="#", llenarLineaX(Xs,R).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%crearMatrizVacia(+Col,+Fil,-Grilla)
+%crea una matriz vacia de con col cant de columnas y fil cant de filas
+%
 
-crearMatrizVacia(0,_Fil,[]).
+
+crearMatrizVacia(0,_Fil,[]).			
+
 crearMatrizVacia(Col,Fil,[X|Xs]):-
     Col>0,
     crearListaV(Fil,X),
     ColAux is Col-1,
     crearMatrizVacia(ColAux,Fil,Xs).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%crearListaV(+Fil,-fila)
+%crea listas vacias que sirven para la matriz, cada lista se convierte en una fila de esta
 
 crearListaV(0,[]).
 crearListaV(Fil,[_|Xs]):-

@@ -166,7 +166,6 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
     let columnaPista;
 
     if (this.state.modoPista === false){
-
       if(posicion === this.state.mode)
         nuevoElem='_'                   
         else
@@ -177,11 +176,10 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
     else{
         nuevoElem = '"'+posicion+'"';
     }    
-      
+   
     let PistF = this.state.rowClues[i].toString();
     let PistC = this.state.colClues[j].toString();
     const queryS = 'put('+nuevoElem+', [' + i + ',' + j + '], ['+PistF+'], ['+PistC+'],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
-    
     
     this.setState({
       waiting: true
