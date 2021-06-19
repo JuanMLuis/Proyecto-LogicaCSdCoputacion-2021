@@ -41,6 +41,7 @@ class Game extends React.Component {
         
         this.setState({
           grid: response['Grilla'],
+          gridAux : response['Grilla'],
           rowClues: response['PistasFilas'],
      
           colClues: response['PistasColumns'],
@@ -109,12 +110,19 @@ class Game extends React.Component {
 
   CambioDeGrilla(){
 
-       this.setState({
-        gridAux : state.matrizSolucionada,
-        grid : state.matrizSolucionada,
-        matrizSolucionada : gridAux,
-       })
-   
+      if (this.state.modoMostrarCompleta === true){
+
+        this.setState({
+          grid : this.state.gridAux
+        });
+      
+      }
+        
+      else
+      this.setState({
+        grid : this.state.matrizSolucionada
+      });
+
      }
   
 
@@ -199,6 +207,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
     this.setState({
       modoMostrarCompleta: !aux
     })
+    this.CambioDeGrilla();
   }
 
   modoPista(){
@@ -206,7 +215,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
     this.setState({
       modoPista: !aux
     })
-
+    this.CambioDeGrilla();
   }
 
   victoria(){
