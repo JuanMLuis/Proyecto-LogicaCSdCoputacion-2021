@@ -244,7 +244,8 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
   modoMostrarCompleta(){
     let aux = this.state.modoMostrarCompleta;
     this.setState({
-      modoMostrarCompleta: !aux
+      modoMostrarCompleta: !aux,
+      gridAux : this.state.grid
     })
     this.CambioDeGrilla();
   }
