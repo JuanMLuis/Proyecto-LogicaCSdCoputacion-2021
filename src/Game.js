@@ -10,7 +10,6 @@ class Game extends React.Component {
     super(props);
     this.state = {
       grid: null,
-      gridAux : null,
       rowClues: null,
       colClues: null,
       waiting: false,
@@ -108,22 +107,6 @@ class Game extends React.Component {
     }
   }
 
-  CambioDeGrilla(){
-
-      if (this.state.modoMostrarCompleta === true){
-
-        this.setState({
-          grid : this.state.gridAux
-        });
-      
-      }
-        
-      else
-      this.setState({
-        grid : this.state.matrizSolucionada
-      });
-
-     }
   
 
   handleClick(i, j) {
@@ -246,7 +229,6 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
     this.setState({
       modoMostrarCompleta: !aux
     })
-    this.CambioDeGrilla();
   }
 
   modoPista(){
@@ -306,7 +288,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
         <div> 
        </div>
         <Board
-          grid={this.state.grid}
+          grid={this.state.modoMostrarCompleta? this.state.matrizSolucionada :this.state.grid}
           rowClues={this.state.rowClues}
           colClues={this.state.colClues}
           PistasFSatisfechas={this.state.PistasFilasSatisfechas}
