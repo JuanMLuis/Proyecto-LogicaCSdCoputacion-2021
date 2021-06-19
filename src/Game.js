@@ -18,14 +18,17 @@ class Game extends React.Component {
       PistasFilasSatisfechas: null,
       PistasColumnasSatisfechas: null,
       matrizSolucionada : null,
-      victoria : false
+      victoria : false,
+      modoPista :false,
+      modoMostrarCompleta:false,
+      
     };
     this.handleClick = this.handleClick.bind(this);
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
     this.pengine = new PengineClient(this.handlePengineCreate);
     this.cambioDeEstado = this.cambioDeEstado.bind(this);
-    
-
+    this.modoMostrarCompleta = this.modoMostrarCompleta.bind(this);
+    this.modoPista = this.modoPista.bind(this);
    
   }
 
@@ -191,7 +194,20 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
       
     });
   }
+  modoMostrarCompleta(){
+    let aux = this.state.modoMostrarCompleta;
+    this.setState({
+      modoMostrarCompleta: !aux
+    })
+  }
 
+  modoPista(){
+    let aux = this.state.modoPista;
+    this.setState({
+      modoPista: !aux
+    })
+
+  }
 
   victoria(){
     let seguirRecorriendo = true;
@@ -252,8 +268,9 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
           Victoria={TextoVictoria}
           onClick={(i, j) => this.handleClick(i,j)}
         />
-        
-      </div>
+        <button type="button" className={"switch"+this.state.modoPista} onClick={this.modoPista} >{"Pistas"} </button>
+        <button type="button" className={"switchG"+this.state.modoMostrarCompleta} onClick={this.modoMostrarCompleta} >{"Solucion"} </button>
+    </div>
     );
   }
 }
