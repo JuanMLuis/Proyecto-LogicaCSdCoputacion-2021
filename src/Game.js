@@ -226,17 +226,21 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
 
 
   modoMostrarCompleta(){
+    if(!this.state.victoria){
     let aux = this.state.modoMostrarCompleta;
     this.setState({
       modoMostrarCompleta: !aux
     })
   }
+  }
 
   modoPista(){
+    if(!this.state.victoria){
     let aux = this.state.modoPista;
     this.setState({
       modoPista: !aux
     })
+  }
   }
 
   victoria(){
