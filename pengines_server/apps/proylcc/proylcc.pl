@@ -210,7 +210,8 @@ estadoDePistasGeneral(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumplidaC):-
 	crearCumplidaC(Grilla,[Y|Ys],FilaPistaCSat):-			%cascara
 		crearCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%los siguientes predicados son variaciones de los predicados de comprobacion de pistas, que les permite modificar las listas ingresadas
+
+% Los siguientes predicados son variaciones de los predicados de comprobacion de pistas, que les permite modificar las listas ingresadas
 
 generarAux(0,[X|Xs],Xs,_R):-					%caso base, aun no podemos asegurar el valor de R y revise el elemento siguiente
 	X\=="#".
@@ -225,20 +226,20 @@ generarAux(P,["#"|Xs],ListaR,R):-			%avanzo en la "cadena" pintada descartando d
 
 
 
-buscarInicioG(_P,["#"|Xs],["#"|Xs]).								%Si enontre una "cadena" pintada, compruebo que cumpla con la pista
+buscarInicioG(_P,["#"|Xs],["#"|Xs]).						% Si enontre una "cadena" pintada, compruebo que cumpla con la pista
 
-buscarInicioG(P,[X|Xs],ListaR):-							%busca el inicio de una cadena pintada
+buscarInicioG(P,[X|Xs],ListaR):-							% Busca el inicio de una cadena pintada
 	(X\=="#"),
 	buscarInicioG(P,Xs,ListaR).	
 
 
-buscarInicioG(_P,[],[]).										%si llegamos al final de la lista, devuelo una lista vacia
+buscarInicioG(_P,[],[]).									% Si llegamos al final de la lista, devuelo una lista vacia
 
-generarPorPista([],ListaR,R):-							%caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
+generarPorPista([],ListaR,R):-								% Caso base, si no quedan pistas que comprobar, revisar que no halla nada extra pintado
     comprobacionFinal(ListaR,R).
 							
     
-generarPorPista([P|SP],[X|Xs],R):-						%[P|SP] pista a comprobar, seguida del resto de pistas o vacio
+generarPorPista([P|SP],[X|Xs],R):-							%[P|SP] pista a comprobar, seguida del resto de pistas o vacio
 	buscarInicioG(P,[X|Xs],ListAcomp),
     generarAux(P,ListAcomp,ListR,R),
 		generarPorPista(SP,ListR,R).
@@ -279,17 +280,19 @@ generacionDeNonoGramaPorPistas(Grilla,PistasF,PistasC,ListaCumplidaF,ListaCumpli
 		generarCumplidaCAux(Grilla,[Y|Ys],0,FilaPistaCSat).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%listaDeUnos(+int,-lista)
-%crea una lsita de unos de tamaño igual a INT, realizado, sirve para generar el nonograma completo
+
+% ListaDeUnos(+int,-lista)
+% Crea una lsita de unos de tamaño igual a INT, realizado, sirve para generar el nonograma completo
 listaDeUnos(0,[]).
 
 listaDeUnos(Int,[1|Res]):-			
     Int>0,
     IntS is Int-1,
     listaDeUnos(IntS,Res).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%completarNonograma(+PC,+PF,-GrillaR)
-%completa el nonograma, cumpliendo con las pistas (PC,PF), tambien crea la grilla, para facilitar el uso de este metodo
+% CompletarNonograma(+PC,+PF,-GrillaR)
+% Completa el nonograma, cumpliendo con las pistas (PC,PF), tambien crea la grilla, para facilitar el uso de este metodo
 %
 completarNonograma(PC,PF,GrillaR):-	
     length(PF,TamF),
@@ -301,16 +304,18 @@ completarNonograma(PC,PF,GrillaR):-
 	llenarMatriz(Grilla,GrillaR).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%llenarMatriz(+Grilla,-GrillaRes)
-%llena los espacios vacios de la grilla con X
+% LlenarMatriz(+Grilla,-GrillaRes)
+% Llena los espacios vacios de la grilla con X
 
 llenarMatriz([],[]).
 llenarMatriz([X|Xs],[R|Rx]):-
     llenarLineaX(X,R),
     llenarMatriz(Xs,Rx).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%lleanrLineaX(+Lista,-ListaRes)
-%Llean los espacios "_" de la lista con X, es un porceso auxiliar de llenarmatriz
+
+%llenarLineaX(+Lista,-ListaRes)
+%Llena los espacios "_" de la lista con X, es un porceso auxiliar de llenarmatriz
 
 llenarLineaX([],[]).
 llenarLineaX(["X"|Xs],["X"|R]):-llenarLineaX(Xs,R).
@@ -318,7 +323,8 @@ llenarLineaX([X|Xs],[X|R]):- X=="#", llenarLineaX(Xs,R).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %crearMatrizVacia(+Col,+Fil,-Grilla)
-%crea una matriz vacia de con col cant de columnas y fil cant de filas
+
+% Crea una matriz vacia de COL cant de columnas y FIL cant de filas
 %
 
 
@@ -329,9 +335,11 @@ crearMatrizVacia(Col,Fil,[X|Xs]):-
     crearListaV(Fil,X),
     ColAux is Col-1,
     crearMatrizVacia(ColAux,Fil,Xs).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %crearListaV(+Fil,-fila)
-%crea listas vacias que sirven para la matriz, cada lista se convierte en una fila de esta
+% Crea listas vacias que sirven para la matriz, cada lista se convierte en una fila de esta
 
 crearListaV(0,[]).
 crearListaV(Fil,[_|Xs]):-
