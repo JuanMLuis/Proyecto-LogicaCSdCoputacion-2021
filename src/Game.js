@@ -20,7 +20,8 @@ class Game extends React.Component {
       victoria : false,
       modoPista :false,
       modoMostrarCompleta:false,
-      
+      cargando:true,                 //esta aparte del waiting para mostrar por pantalla que esta cargando y no aparezca cada vez que se hace consulta a prolog
+      error:false 
     };
     this.handleClick = this.handleClick.bind(this);
     this.handlePengineCreate = this.handlePengineCreate.bind(this);
@@ -33,6 +34,9 @@ class Game extends React.Component {
 
   handlePengineCreate() {
     const queryS = 'init(PistasFilas, PistasColumns, Grilla)';
+    this.setState({
+      waiting: true
+    });
     this.pengine.query(queryS, (success, response) => {
       if (success) {
         let CantFilas=Object.keys(response['PistasFilas']).length;
@@ -45,9 +49,13 @@ class Game extends React.Component {
      
           colClues: response['PistasColumns'],
           PistasFilasSatisfechas:new Array(CantFilas).fill(0),          //preguntar, inicializamos en 0, si no se inicializa aca, explota
-          PistasColumnasSatisfechas: new Array(CantColumnas).fill(0)
-
+          PistasColumnasSatisfechas: new Array(CantColumnas).fill(0),
+          waiting:false
           
+        });
+      }else{
+        this.setState({
+          waiting: false
         });
       }
       this.inicializarPistasSat();
@@ -80,16 +88,24 @@ class Game extends React.Component {
     let PistasF= JSON.stringify(this.state.rowClues.slice());
     let PistasC= JSON.stringify(this.state.colClues.slice()); 
     const queryMat='completarNonograma('+PistasF+','+PistasC+',GrillaR)'
+    this.setState({
+      waiting: true
+    });
+
 
     this.pengine.query(queryMat, (success, response) => {
       if (success) {
         this.setState({
           matrizSolucionada : response['GrillaR'],
+          waiting: false,
+          cargando :false
         });
 
-      }
+      }this.setState({
+        waiting: false,
+        error:true
+      });
     });
-
   }
 
 
@@ -111,9 +127,9 @@ class Game extends React.Component {
   
 
   handleClick(i, j) {
-    if(!this.state.victoria && !this.state.modoMostrarCompleta){
+  
     // No action on click if we are waiting.
-    if (this.state.waiting) {
+    if (this.state.waiting || this.state.cargando ||this.state.victoria) {
       return;
     }
     // Build Prolog query to make the move, which will look as follows:
@@ -157,7 +173,7 @@ class Game extends React.Component {
       this.agregarElemento(posicion,i,j,squaresS);
     }); 
   }
-  }
+  
 
 
 agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que corresponda en la grilla
@@ -224,7 +240,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
 
 
   modoMostrarCompleta(){
-    if(!this.state.victoria){
+    if(!this.state.victoria && !this.state.cargando){
     let aux = this.state.modoMostrarCompleta;
     this.setState({
       modoMostrarCompleta: !aux
@@ -233,7 +249,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
   }
 
   modoPista(){
-    if(!this.state.victoria){
+    if(!this.state.victoria && !this.state.cargando){
     let aux = this.state.modoPista;
     this.setState({
       modoPista: !aux
@@ -281,7 +297,11 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
         TextoVictoria = 'Victoria!';
       else TextoVictoria="";
 
-    
+    let carga="";
+    if(this.state.cargando && !this.state.error)
+      carga="Cargando"
+    else if(this.state.cargando && this.state.error)
+      carga="ERROR NO HAY SOLUCION DISPONIBLE"
 
     
   
@@ -302,6 +322,7 @@ agregarElemento(posicion,i,j,squaresS){ //se encarga de agregar el elemento que 
         />
         <button type="button" className={"switch"+this.state.modoPista} onClick={this.modoPista} >{"Revelar Celda"} </button>
         <button type="button" className={"switchG"+this.state.modoMostrarCompleta} onClick={this.modoMostrarCompleta} >{"Solucion"} </button>
+        <div> {carga} </div>
     </div>
     );
   }
