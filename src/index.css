@@ -117,6 +117,7 @@ body {
   border-radius: 15px;
   border: 3px double #692621;
   position: relative;
+  right: -4px;
 }
 .switchtrue{
   text-decoration: none;
@@ -131,6 +132,7 @@ body {
   border-radius: 15px;
   border: 3px double #646d12;
   position: relative;
+  right: -4px;
 }
 
 .switchGfalse{
@@ -147,7 +149,7 @@ body {
   border: 3px double #692621;
   position: relative;
   bottom: -45px;
-  right: 83px;
+  right: 146px;
 }
 .switchGtrue{
   text-decoration: none;
@@ -163,7 +165,7 @@ body {
   border: 3px double #646d12;
   position: relative;
   bottom: -45px;
-  right: 83px;
+  right: 146px;
 
 }
 
